@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  @apply box-border p-0 m-0;
+}
+
+body {
+  @apply bg-white;
+}
+
+/* FOOTER  START*/
+
+.icon-style {
+  @apply text-[2rem];
+}
