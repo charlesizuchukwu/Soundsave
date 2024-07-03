@@ -10,8 +10,40 @@ body {
   @apply bg-white;
 }
 
+/* REGISTER PAGE STYLE */
+
+.form-div-style {
+  @apply w-[95%]  min-h-[6rem] border-2 border-white   p-2 flex flex-col  justify-around  items-center;
+}
+
+.form-label-style {
+  @apply mr-auto  text-xl font-medium  tracking-wide;
+}
+
+.form-input-style {
+  @apply w-full   border-2  rounded-md p-2 text-black  mr-auto;
+}
+
+.error-msg-style {
+  @apply text-red-400  text-sm  tracking-wide font-semibold  text-center;
+}
+
 /* FOOTER  START*/
 
 .icon-style {
   @apply text-[2rem];
+}
+
+/* DASHBOARD FOOTER */
+
+.df-icon-stye {
+  @apply text-[1.5rem];
+}
+
+.icon-name {
+  @apply text-[0.8rem];
+}
+
+.link-style {
+  @apply flex flex-col justify-center items-center;
 }

@@ -1,6 +1,6 @@
 export default function SettingUi() {
   const content = (
-    <main>
+    <main className="w-full min-h-screen">
       <p>settings</p>
     </main>
   );
