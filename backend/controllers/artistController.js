@@ -1,14 +1,19 @@
-import { musicArtists } from "../models/artistModel.js";
-import bcrypt from "bcrypt";
-import { validate } from "email-validator";
-import mongodb from "mongodb";
-import Grid from "gridfs-stream";
-import dotenv from "dotenv";
-import mongoose from "mongoose";
-import { dbConn } from "../config/dbConn.js";
-import fs from "fs";
+const { musicArtists } = require("../models/artistModel.js");
+bcrypt = require("bcrypt");
+validator = require("email-validator");
+mongodb = require("mongodb");
+Grid = require("gridfs-stream");
+dotenv = require("dotenv");
+mongoose = require("mongoose");
+const { dbConn } = require("../config/dbConn.js");
+fs = require("fs");
 
 dotenv.config();
+
+// UTILITY FUNCTION
+const editor = (prev, rec) => {
+  return prev === "" && rec === "None" ? prev : rec;
+};
 
 const register = async (req, res) => {
   const { email, fullName, password } = req.body;
@@ -22,7 +27,7 @@ const register = async (req, res) => {
       .json({ message: "Please choose a shorter form of name." });
   }
 
-  if (!validate(email)) {
+  if (!validator.validate(email)) {
     return res.status(400).json({ message: "Invalid email address." });
   }
 
@@ -53,53 +58,75 @@ const register = async (req, res) => {
   }
 };
 
-const uploadImage = async (req, res) => {
-  //   const fileName = req.file;
-  let file;
+const profileSettings = async (req, res) => {
+  const {
+    stageName,
+    country,
+    instagramAccount,
+    facebookAccount,
+    twitterAccount,
+    whatsappAccount,
+    id,
+  } = req.body;
+
+  if (!id) {
+    return res.status(400).json({ message: "User id must be provided." });
+  }
+
   try {
-    if (!req.files) {
-      return res.status(400).json({ message: "File must be provided" });
+    const foundUser = await musicArtists.findById(id).exec();
+    if (!foundUser) {
+      return res.status(400).json({ message: "User not found" });
     }
 
-    file = req.files;
-    // return res.status(200).json({ dt: file?.undefined?.name });
-    // const foundArtist = await musicArtists.findOne({ email }).lean();
-    // const conn = mongoose.createConnection(process.env.DB_URI);
-    const db = mongoose.connection.db;
+    foundUser.instagram = editor(foundUser.instagram, instagramAccount);
+    foundUser.facebook = editor(foundUser.facebook, facebookAccount);
+    foundUser.whatsapp = editor(foundUser.whatsapp, whatsappAccount);
+    foundUser.twitter = editor(foundUser.twitter, twitterAccount);
+    foundUser.country = editor(foundUser.country, country);
+    foundUser.stageName = editor(foundUser.stageName, stageName);
 
-    const bucket = new mongodb.GridFSBucket(db);
-
-    fs.createReadStream(file?.undefined?.name).pipe(
-      bucket.openUploadStream(file?.undefined?.name, {
-        chunkSizeBytes: 1048576,
-        metadata: { field: "myfield", value: "myvalue" },
-      })
+    const updatedUserData = await musicArtists.findByIdAndUpdate(
+      { _id: foundUser._id },
+      {
+        instagram: foundUser.instagram,
+        facebook: foundUser.facebook,
+        twitter: foundUser.twitter,
+        whatsapp: foundUser.whatsapp,
+        stageName: foundUser.stageName,
+        country: foundUser.country,
+      }
     );
 
-    const cursor = bucket.find({});
-
-    return res.status(200).json({ msg: cursor });
-
-    // Grid.mongo = mongoose.mongo;
-
-    // console.log("connecting....");
-    // console.log("connected");
-    // mongoose.connection.once("open", function () {
-    //   const gfs = Grid(conn.db);
-    //   const writestream = gfs.createWriteStream({
-    //     filename: file,
-    //   });
-
-    //   return res.status(200).json({ msg: writestream });
-    // });
+    if (updatedUserData) {
+      return res.status(200).json({ message: "data updated successfully." });
+    } else {
+      return res.status(400).json({ message: "Invalid user data recieved." });
+    }
   } catch (error) {
     throw new Error(error);
   }
 };
 
-export default {
+const getAllArtist = async (req, res) => {
+  try {
+    const allArtists = await musicArtists.find({}).lean();
+    if (!allArtists || allArtists.length === 0) {
+      return res.status(400).json({ message: "No Artist " });
+    } else {
+      return res.status(200).json({ allArtists });
+    }
+  } catch (error) {
+    return res.status(error?.statusCode).json({ error });
+  }
+};
+
+// const uploadImage = async (req, res) => {};
+
+module.exports = {
   register,
-  uploadImage,
+  profileSettings,
+  getAllArtist,
 };
 
 // const Recipient = require("mailersend").Recipient;
@@ -113,11 +140,11 @@ export default {
 // const recipients = [new Recipient("recipient@email.com", "Recipient")];
 
 // const emailParams = new EmailParams()
-//     .setFrom("info@domain.com")
-//     .setFromName("Your Name")
+//     .set(require("info@domain.com")
+//     .setNrequire(ame("Your Name")
 //     .setRecipients(recipients)
 //     .setSubject("Subject")
-//     .setHtml("Greetings from the team, you got this message through MailerSend.")
-//     .setText("Greetings from the team, you got this message through MailerSend.");
+//     .setHtml("Greetings  require(the team, you got this message through MailerSend.")
+//     .setText("Greetings  require(the team, you got this message through MailerSend.");
 
 // mailersend.send(emailParams);

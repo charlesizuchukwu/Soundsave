@@ -18,25 +18,25 @@ export const footerData = [
 export const dashboardFooterData = [
   {
     name: "Home",
-    url: "/",
+    url: "/dashboard/dashboardHome",
     comp: <IoHomeSharp className="df-icon-stye" />,
     id: 1,
   },
   {
     name: "library",
-    url: "/library",
+    url: "/dashboard/library",
     comp: <MdLibraryMusic className="df-icon-stye" />,
     id: 2,
   },
   {
     name: "Upload",
-    url: "/upload",
+    url: "/dashboard/upload",
     comp: <FaUpload className="df-icon-stye" />,
     id: 3,
   },
   {
     name: "Setting",
-    url: "/setting",
+    url: "/dashboard/setting",
     comp: <IoSettings className="df-icon-stye" />,
     id: 4,
   },

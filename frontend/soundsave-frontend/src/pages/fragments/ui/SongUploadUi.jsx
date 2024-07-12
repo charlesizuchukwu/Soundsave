@@ -20,16 +20,22 @@ export default function SongUploadUi() {
   };
   const content = (
     <main className="w-full min-h-screen  flex justify-center items-center">
-      <form action="" className="w-[80%] bg-green-500">
-        <div>
+      <form
+        action=""
+        className="w-[90%]  min-h-[10rem]  overflow-hidden  flex flex-col gap-4 p-3 "
+      >
+        <div className="  w-[80%]  mx-auto flex flex-col gap-3 text-center ">
           <label htmlFor="filename" onChange={(e) => e.target.files[0]}>
-            Choose a file
+            Please select the song file you wish to upload.
           </label>
-          <input type="file" />
+          <input type="file" className="text-yellow-500" />
         </div>
 
-        <button onClick={upload}>
-          Upload <FaUpload />
+        <button
+          onClick={upload}
+          className="min-w-[50%] p-5  text-[1.1rem] mx-auto flex justify-around gap-3 items-center  rounded-md tracking-wide bg-green-700"
+        >
+          Upload now <FaUpload />
         </button>
       </form>
     </main>

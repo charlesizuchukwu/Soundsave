@@ -4,7 +4,7 @@ import DashboardHeader from "./fragments/DashboardHeader";
 
 export default function Dashboard() {
   const content = (
-    <main>
+    <main className="relative">
       <DashboardHeader />
       <Outlet />
       <DashboardFooter />

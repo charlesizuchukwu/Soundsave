@@ -13,6 +13,7 @@ import SongLibraryUi from "./pages/fragments/ui/SongLibraryUi";
 import SongUploadUi from "./pages/fragments/ui/SongUploadUi";
 import SettingUi from "./pages/fragments/ui/SettingUi";
 import LandingPage from "./pages/LandingPage";
+import DashboardLandingUi from "./pages/fragments/ui/DashboardLandingUi";
 
 const backPages = {
   home: "/",
@@ -44,14 +45,18 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/Dashboard",
+    path: "/dashboard",
     element: <DashboardPage />,
     errorElement: <NotFoundPage />,
     children: [
+      {
+        path: "dashboardHome",
+        element: <DashboardLandingUi />,
+      },
       { path: "setting", element: <SettingUi /> },
 
-      { path: "songlibrary", element: <SongLibraryUi /> },
-      { path: "songupload", element: <SongUploadUi /> },
+      { path: "library", element: <SongLibraryUi /> },
+      { path: "upload", element: <SongUploadUi /> },
     ],
   },
 ]);

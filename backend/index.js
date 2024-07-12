@@ -1,16 +1,26 @@
-import express from "express";
-import cookieParser from "cookie-parser";
-import errorHandler from "./middlewares/errorHandler.js";
-import { corsOptions } from "./config/corsOptions.js";
-import dotenv from "dotenv";
-import mongoose from "mongoose";
-import { dbConn } from "./config/dbConn.js";
-import cors from "cors";
-import artistRoute from "./routes/artistRoutes.js";
-import fileUpload from "express-fileupload";
-// import multer from "multer";
-// import path from "path";
-// import { fileURLToPath } from "url";
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const errorHandler = require("./middlewares/errorHandler.js");
+const { corsOptions } = require("./config/corsOptions.js");
+const dotenv = require("dotenv");
+const mongoose = require("mongoose");
+const { dbConn } = require("./config/dbConn.js");
+const cors = require("cors");
+const artistRoute = require("./routes/artistRoutes.js");
+// const fileUpload = require("express-fileupload");
+const multer = require("multer");
+const path = require("path");
+const {
+  uploadSong,
+  getAllSongs,
+  downLoadSong,
+  deleteSong,
+  getSpecificArtistSong,
+} = require("./middlewares/songMiddleware.js");
+const isArtist = require("./middlewares/isArtist.js");
+// const { uploadSong } = require("./middlewares/songMiddleware.js");
+
+// const  { fileURLToPath } = require("url")
 
 const app = express();
 
@@ -19,18 +29,21 @@ dotenv.config();
 dbConn();
 // console.log(dbConn.db);
 const port = process.env.PORT || 4000;
-// get resolved path to the file
-// const __fileName = fileURLToPath(import.meta.url);
-// get the name of the directory
-// const __dirname = path.join(__fileName);
+
+const upload = multer({ dest: path.join(__dirname, ".") });
 
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use(fileUpload());
+// app.use(fileUpload());
 app.use(cookieParser());
 // app.use(multer({ dest: path.join(__dirname, ".") }));
 
 app.use(artistRoute);
+app.post("/upload", upload.any(), uploadSong);
+app.get("/getallsongs", getAllSongs);
+app.get("/downloadsong/:id/:name", downLoadSong);
+app.get("/getsingleartistsongs/:id", getSpecificArtistSong);
+app.delete("/deletesong/:id", deleteSong);
 
 app.all("*", (req, res) => {
   res.status(404);
@@ -41,7 +54,7 @@ app.all("*", (req, res) => {
   }
 });
 
-app.use(errorHandler);
+// app.use(errorHandler);
 
 mongoose.connection.on("open", () => {
   app.listen(

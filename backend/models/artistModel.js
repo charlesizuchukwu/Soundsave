@@ -1,24 +1,31 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const artistSchema = new mongoose.Schema(
   {
-    fullName: { type: String, required: ["Please provide your fullname."] },
+    fullName: { type: String, required: ["Fullname must be provided"] },
     email: {
       type: String,
-      required: ["Email must be provided."],
       unique: ["Email already exists."],
+      required: ["Email must be provided."],
     },
     password: { type: String, required: ["Password must be provided"] },
     stageName: { type: String, default: "" },
     bio: { type: String, default: "" },
     album: { type: String, default: "" },
     country: { type: String, default: "" },
+    instagram: { type: String, default: "" },
+    whatsapp: { type: String, default: "" },
+    twitter: { type: String, default: "" },
+    facebook: { type: String, default: "" },
+
     releaseDate: { type: String, default: "" },
-    songs: { type: String },
+    songNames: [String],
     profilePhoto: { type: String },
   },
   { timestamps: true }
 );
 
-export const musicArtists =
+const musicArtists =
   mongoose.models.musicArtists || mongoose.model("musicArtists", artistSchema);
+
+module.exports = { musicArtists };

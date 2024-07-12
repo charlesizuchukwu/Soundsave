@@ -1,6 +1,6 @@
-import { allowedOringins } from "./allowedOrigins.js";
+const { allowedOringins } = require("./allowedOrigins.js");
 
-export const corsOptions = {
+const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOringins.indexOf(origin) === -1) {
       return callback(null, true);
@@ -15,3 +15,5 @@ export const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"],
   "Access-Control-Allow-Credentials": true,
 };
+
+module.exports = { corsOptions };
