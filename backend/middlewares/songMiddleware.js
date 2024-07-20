@@ -1,22 +1,21 @@
-// const {
-//   default: SongUploadUi,
-// } = require("../../frontend/soundsave-frontend/src/pages/fragments/ui/SongUploadUi");
 const { musicArtists } = require("../models/artistModel");
 const GridFile = require("../models/gridfile.model");
 const fs = require("fs");
+const asyncHandler = require("express-async-handler");
+const path = require("path");
 
 // UPLOAD SONG
 const uploadSong = async (req, res, next) => {
-  const { email } = req.body;
-  if (!email) {
-    return res.status(400).json({ message: "Email must be provided." });
+  const { id } = req.params;
+  if (!id) {
+    return res.status(400).json({ message: "User id must be provided." });
   }
 
   // const userId = req.userId;
   // console.log(userId);
   // return res.json({ msg: userId });
   try {
-    const foundUser = await musicArtists.findOne({ email }).lean();
+    const foundUser = await musicArtists.findOne({ _id: id }).lean();
     if (!foundUser) {
       return res.status(400).json({ message: "Invalid user." });
     }
@@ -24,6 +23,7 @@ const uploadSong = async (req, res, next) => {
     // let fileName;
 
     if (req.files) {
+      // return res.status(200).json({ data: req.files });
       const promises = req.files.map(async (file) => {
         const fileStream = fs.createReadStream(file.path);
 
@@ -39,8 +39,6 @@ const uploadSong = async (req, res, next) => {
 
       await Promise.all(promises);
       return res.status(201).json({ message: `File uploaded successfully` });
-    } else {
-      return res.status(400).json({ message: "Please choose upload a file" });
     }
   } catch (error) {
     next(error);
@@ -89,7 +87,44 @@ const downLoadSong = async (req, res, next) => {
     }
 
     res.attachment(name);
+    // const sg = songFile.fileStream(res);
     return songFile.downloadStream(res);
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+// LISTEN TO SONG
+const streamSong = async (req, res, next) => {
+  try {
+    const { id, name } = req.params;
+
+    if (!id || !name) {
+      return res.status(400).json({ message: "Id and Name must be provided." });
+    }
+    const songFile = await GridFile.findById(id);
+    if (!songFile) {
+      return res.status(400).json({ message: "Song not found. " });
+    }
+
+    res.attachment(name);
+    // const sg = songFile.
+    // return true;
+    // const upload = songFile.getUploadStream(res);
+    return res.send("it worked");
+
+    // const options = {
+    //   root: path.join(__dirname),
+    // };
+    // filepath = path.join(
+    //   __dirname,
+    //   "../uploads",
+    //   path.normalize(upload.filename)
+    // );
+    // return res.sendFile(filepath);
+
+    // return res.status(200).json({ dt: "sent" });
+    // return res.sendFile(path.join(__dirname, "../public", "main.html"));
   } catch (error) {
     throw new Error(error);
   }
@@ -122,38 +157,36 @@ const deleteSong = async (req, res, next) => {
 
 // GET SPECIFIC ARTIST SONGS
 
-const getSpecificArtistSong = async (req, res, next) => {
-  try {
-    const { id } = req.params;
+const getSpecificArtistSong = asyncHandler(async (req, res, next) => {
+  // return res.send(req.params);
+  const { id } = req.params;
 
-    if (!id) {
-      return res.status(400).json({ message: "User id must be provided." });
-    }
-
-    const foundUser = await musicArtists.findById(id);
-    if (!foundUser) {
-      return res.status(400).json({ message: "User not found." });
-    }
-
-    const userId = foundUser._id;
-
-    const allSongFile = await GridFile.find({});
-
-    if (allSongFile.length === 0) {
-      return res.status(400).json({ message: "Empty song list." });
-    }
-
-    const songs = songFilter(allSongFile, userId);
-
-    if (songs.length === 0) {
-      return res.status(400).json({ message: "Empty song list." });
-    }
-
-    return res.status(200).json({ songs });
-  } catch (error) {
-    throw new Error(error);
+  if (!id) {
+    return res.status(400).json({ message: "User id must be provided." });
   }
-};
+
+  // return res.status(200).json({ id });
+
+  const foundUser = await musicArtists.findOne({ _id: id });
+  if (!foundUser) return res.status(400).json({ message: "User not found." });
+
+  const userId = foundUser._id;
+
+  const allSongFile = await GridFile.find({});
+
+  if (allSongFile.length === 0) {
+    return res.status(400).json({ message: "Empty song list." });
+  }
+  const songs = songFilter(allSongFile, userId);
+
+  if (songs.length === 0) {
+    return res.status(400).json({ message: "Empty song list." });
+  }
+
+  return res.status(200).json({ songs });
+  throw new Error(error);
+  return res.status(500).json({ err: error });
+});
 
 module.exports = {
   uploadSong,
@@ -161,6 +194,7 @@ module.exports = {
   downLoadSong,
   deleteSong,
   getSpecificArtistSong,
+  streamSong,
 };
 
 // 66869780cb47fb1ae9864f73

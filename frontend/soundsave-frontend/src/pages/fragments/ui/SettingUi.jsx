@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import ScaleLoader from "react-spinners/ScaleLoader";
-import axios from "axios";
 import * as EmailValidator from "email-validator";
 import { GrUserSettings } from "react-icons/gr";
 import { FaFacebook } from "react-icons/fa";
@@ -10,10 +9,26 @@ import { FaXTwitter } from "react-icons/fa6";
 import { FaWhatsappSquare } from "react-icons/fa";
 import { errorMsg } from "../../../helper/errorMsg";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useOutletContext } from "react-router-dom";
+import useRouteProtect from "../../../hooks/useRouteProtect";
 
 export default function SettingUi() {
+  // LOGIC STATES AND VARIABLES
+  const [logicError, setLogicError] = useState("");
+  const [logicSuccessMsg, setLogicSuccessMsg] = useState("");
+  const navigate = useNavigate();
+  const [loading, setIsloading] = useState(false);
+  const [isAllowed, setIsAllowed] = useState(false);
+  const axiosPrivate = useAxiosPrivate();
+  const location = useLocation();
+  const { auth } = useOutletContext();
+
+  // /dashboard/settings ROUTE PROTECTION
+
+  useRouteProtect(auth?.accessToken, setIsAllowed);
+
   // DESTRUCTURED USEFORM DATA
+
   const {
     register,
     handleSubmit,
@@ -21,13 +36,6 @@ export default function SettingUi() {
     getValues,
     formState: { errors },
   } = useForm();
-
-  const [logicError, setLogicError] = useState("");
-  const [logicSuccessMsg, setLogicSuccessMsg] = useState("");
-  const navigate = useNavigate();
-  const [loading, setIsloading] = useState(false);
-  const axiosPrivate = useAxiosPrivate();
-  const location = useLocation();
 
   // FORM SUBMITION
   const onSubmit = async (data) => {
@@ -85,6 +93,18 @@ export default function SettingUi() {
     }
   };
 
+  // LOGOUT
+  const logout = async () => {
+    try {
+      const response = await axiosPrivate("/logout");
+      console.log(response);
+      // navigate("/")
+    } catch (error) {
+      const err = errorMsg(error);
+      setLogicError(err);
+    }
+  };
+
   // SETTING-UI CONTENT
   const content = (
     <main className="w-full min-h-screen     text-white  flex  flex-col py-16  justify-around  items-center  ">
@@ -121,7 +141,14 @@ export default function SettingUi() {
           </li>
         </ul>
       </div>
-      <button className="bg-red-500  text-xl  p-2 rounded-md ">Logout</button>
+      <button
+        onClick={() => {
+          logout();
+        }}
+        className="bg-red-500  text-xl  p-2 rounded-md "
+      >
+        Logout
+      </button>
       <hr className="w-[50%]  my-4 bg-white" />
       {logicSuccessMsg && logicSuccessMsg != "" && (
         <p className="text-green-500  mx-auto  tracking-wide">
@@ -449,5 +476,5 @@ export default function SettingUi() {
     </main>
   );
 
-  return content;
+  return isAllowed === true && content;
 }

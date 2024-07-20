@@ -1,8 +1,32 @@
 import { SimpleGauge } from "react-gauges";
 import ReactPlayer from "react-player";
 import { Chart } from "react-google-charts";
+import { useOutletContext, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import useRouteProtect from "../../../hooks/useRouteProtect";
 
 export default function DashboardLandingUi() {
+  const { auth, setAuth } = useOutletContext();
+  const navigate = useNavigate();
+  const [isAllowed, setIsAllowed] = useState(false);
+
+  console.log(auth);
+
+  // useEffect(() => {
+  //   const protector = () => {
+  //     console.log(auth?.accessToken);
+  //     if (typeof auth?.accessToken === "undefined") {
+  //       navigate("/login");
+  //     } else {
+  //       setIsAllowed(true);
+  //     }
+  //   };
+
+  //   protector();
+  // }, []);
+
+  useRouteProtect(auth?.accessToken, setIsAllowed);
+
   // COMBOCHART SETTING
   const comboChartData = [
     [
@@ -100,7 +124,7 @@ export default function DashboardLandingUi() {
     </main>
   );
 
-  return content;
+  return isAllowed === true && content;
 }
 
 // LINKS TO CHART TEMPLATE SETUP

@@ -7,6 +7,7 @@ dotenv = require("dotenv");
 mongoose = require("mongoose");
 const { dbConn } = require("../config/dbConn.js");
 fs = require("fs");
+// const asyncHandler = require("express-async-handler");
 
 dotenv.config();
 
@@ -16,8 +17,8 @@ const editor = (prev, rec) => {
 };
 
 const register = async (req, res) => {
-  const { email, fullName, password } = req.body;
-  if (!email || !fullName || !password) {
+  const { email, fullName, password, secretQuestion, secretAnswer } = req.body;
+  if (!email || !fullName || !password || !secretQuestion || !secretAnswer) {
     return res.status(400).json({ message: "All fields are required." });
   }
 
@@ -42,10 +43,14 @@ const register = async (req, res) => {
   }
 
   const hashedPwd = await bcrypt.hash(password, 10);
+  const trimedSecQuest = secretQuestion.trim().toLowerCase();
+  const trimedSecAns = secretAnswer.trim().toLowerCase();
 
   const newUser = new musicArtists({
     fullName,
     email,
+    secretAnswer: trimedSecAns,
+    secretQuestion: trimedSecQuest,
     password: hashedPwd,
   });
 
@@ -66,8 +71,8 @@ const profileSettings = async (req, res) => {
     facebookAccount,
     twitterAccount,
     whatsappAccount,
-    id,
   } = req.body;
+  const id = req.user;
 
   if (!id) {
     return res.status(400).json({ message: "User id must be provided." });
@@ -121,6 +126,37 @@ const getAllArtist = async (req, res) => {
   }
 };
 
+// const getSpecificArtistSong = asyncHandler(async (req, res) => {
+//   return res.send(req.params);
+// const data = req.params;
+
+// if (!data) {
+//   return res.status(400).json({ message: "User id must be provided." });
+// }
+
+// return res.status(200).json({ data });
+
+// const foundUser = await musicArtists.findOne({ _id: id });
+// if (!foundUser) return res.status(400).json({ message: "User not found." });
+
+// const userId = foundUser._id;
+
+// const allSongFile = await GridFile.find({});
+
+// if (allSongFile.length === 0) {
+//   return res.status(400).json({ message: "Empty song list." });
+// }
+// const songs = songFilter(allSongFile, userId);
+
+// if (songs.length === 0) {
+//   return res.status(400).json({ message: "Empty song list." });
+// }
+
+// return res.status(200).json({ songs });
+// throw new Error(error);
+// return res.status(500).json({ err: error });
+// });
+
 // const uploadImage = async (req, res) => {};
 
 module.exports = {
@@ -128,6 +164,7 @@ module.exports = {
   profileSettings,
   getAllArtist,
 };
+// getSpecificArtistSong,
 
 // const Recipient = require("mailersend").Recipient;
 // const EmailParams = require("mailersend").EmailParams;

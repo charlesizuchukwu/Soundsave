@@ -14,6 +14,10 @@ import SongUploadUi from "./pages/fragments/ui/SongUploadUi";
 import SettingUi from "./pages/fragments/ui/SettingUi";
 import LandingPage from "./pages/LandingPage";
 import DashboardLandingUi from "./pages/fragments/ui/DashboardLandingUi";
+import { AuthProvider } from "./context/AuthProvider";
+import ArtistSong from "./pages/ArtistSong";
+import Resetpwd from "./pages/Resetpwd";
+import Forgotpwd from "./pages/Forgotpwd";
 
 const backPages = {
   home: "/",
@@ -31,11 +35,28 @@ const router = createBrowserRouter([
         path: "",
         element: <LandingPage />,
       },
+
+      {
+        path: "song/:songId/:songName",
+        element: <ArtistSong />,
+      },
+      {
+        path: "resetpwd",
+        element: <Resetpwd />,
+        errorElement: <NotFoundPage />,
+      },
+      {
+        path: "forgotpwd",
+        element: <Forgotpwd />,
+        errorElement: <NotFoundPage />,
+      },
+      ,
       {
         path: "login",
         element: <LoginPage />,
         errorElement: <NotFoundPage />,
       },
+
       {
         path: "register",
         element: <RegisterPage />,
@@ -50,7 +71,7 @@ const router = createBrowserRouter([
     errorElement: <NotFoundPage />,
     children: [
       {
-        path: "dashboardHome",
+        path: "",
         element: <DashboardLandingUi />,
       },
       { path: "setting", element: <SettingUi /> },
@@ -64,7 +85,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );
 

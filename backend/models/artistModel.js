@@ -21,6 +21,8 @@ const artistSchema = new mongoose.Schema(
     releaseDate: { type: String, default: "" },
     songNames: [String],
     profilePhoto: { type: String },
+    secretQuestion: { type: String, default: "" },
+    secretAnswer: { type: String, default: "" },
   },
   { timestamps: true }
 );

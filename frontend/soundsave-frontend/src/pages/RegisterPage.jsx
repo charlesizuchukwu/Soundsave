@@ -6,6 +6,7 @@ import axios from "axios";
 import * as EmailValidator from "email-validator";
 import { useNavigate } from "react-router-dom";
 import { errorMsg } from "../helper/errorMsg";
+import { secretQuestions } from "../data";
 
 export default function RegisterPage() {
   // DESTRUCTURED USEFORM DATA
@@ -23,8 +24,9 @@ export default function RegisterPage() {
 
   // FORM SUBMITION
   const onSubmit = async (data) => {
-    const { fullName, email, password } = data;
-    if (!fullName && !email && !password) {
+    console.log(data);
+    const { fullName, email, password, secretQuestion, secretAnswer } = data;
+    if (!fullName && !email && !password && !secretQuestion && !secretAnswer) {
       return setLogicError("All fields are required");
     }
 
@@ -35,7 +37,13 @@ export default function RegisterPage() {
     // More validations can be added based on security target
 
     try {
-      const credentials = { fullName, email, password };
+      const credentials = {
+        fullName,
+        email,
+        password,
+        secretAnswer,
+        secretQuestion,
+      };
       const apiHeader = {
         headers: {
           Accept: "application/json",
@@ -250,6 +258,79 @@ export default function RegisterPage() {
             )}
         </div>
         {/* END OF CONFIRM PASSWORD */}
+
+        {/* SECRET QUESTIONS*/}
+
+        <div className="form-div-style">
+          <label htmlFor="secretQuestion" className="form-label-style ">
+            Secret Question:{" "}
+          </label>
+          <select
+            type="text"
+            id="secretQuestion"
+            {...register("secretQuestion", {
+              required: { value: true, message: "Please fill this field" },
+            })}
+            name="secretQuestion"
+            className={`form-input-style  ${
+              errors.secretQuestion ? "border-red-400" : "border-green-500"
+            } `}
+          >
+            {" "}
+            {secretQuestions.map((data) => (
+              <option key={data?.id} value={data?.name}>
+                {data?.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* END OF SECRET QUESTIONS */}
+
+        {/* SECRET ANSWER */}
+
+        <div className="form-div-style">
+          <label htmlFor="secretAnswer" className="form-label-style ">
+            Secret Answer:{" "}
+          </label>
+          <input
+            type="text"
+            id="secretAnswer"
+            {...register("secretAnswer", {
+              required: { value: true, message: "Please fill this field" },
+              maxLength: { value: 50, message: "Length exceeded." },
+              minLength: {
+                value: 1,
+                message: "input characters are too short.",
+              },
+            })}
+            name="secretAnswer"
+            className={`form-input-style  ${
+              errors.secretAnswer ? "border-red-400" : "border-green-500"
+            } `}
+          />
+          {errors?.secretAnswer && errors?.secretAnswer?.type == "required" && (
+            <p className="error-msg-style">{errors?.secretAnswer?.message}</p>
+          )}
+
+          {errors?.secretAnswer &&
+            errors?.secretAnswer?.type == "maxLength" && (
+              <p className="error-msg-style">
+                {" "}
+                {errors?.secretAnswer?.message}
+              </p>
+            )}
+
+          {errors?.secretAnswer &&
+            errors?.secretAnswer?.type == "minLength" && (
+              <p className="error-msg-style">
+                {" "}
+                {errors?.secretAnswer?.message}
+              </p>
+            )}
+        </div>
+
+        {/* END OF SECRET ANSWER */}
         <input
           type="submit"
           className="bg-[#0a572a]  text-xl tracking-wide rounded-lg  mx-auto block  p-2"

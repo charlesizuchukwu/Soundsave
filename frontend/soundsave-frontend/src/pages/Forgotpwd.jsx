@@ -9,8 +9,9 @@ import axios from "../api/axios";
 import { errorMsg } from "../helper/errorMsg";
 import { jwtDecode } from "jwt-decode";
 import useAuth from "../hooks/useAuth";
+import { secretQuestions } from "../data";
 
-export default function LoginPage() {
+export default function Forgotpwd() {
   // DESTRUCTURED USEFORM DATA
   const {
     register,
@@ -30,52 +31,54 @@ export default function LoginPage() {
   // FORM SUBMITION
   const onSubmit = async (data) => {
     console.log(data);
-    const { email, password } = data;
-    if (!email && !password) {
-      // setLogicError("All fields are required");
+    const { secretQuestion, secretAnswer, email } = data;
+    if (!secretQuestion && !secretAnswer && !email) {
+      setLogicError("All fields are required");
       console.log("all fields");
     }
 
     if (!EmailValidator.validate(email)) {
-      // setLogicError("Invalid email address");
+      setLogicError("Invalid email address");
     }
 
     // More validations can be added based on security target
 
     try {
-      const credentials = { email, password };
+      const credentials = { secretQuestion, secretAnswer, email };
       const apiHeader = {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
       };
+      setAuth((prev) => ({ ...prev, email }));
       setIsloading(true);
-      const response = await axios.post("/login", credentials, apiHeader);
+      const response = await axios.post("/forgotpwd", credentials, apiHeader);
 
       console.log(response);
 
-      if (!response.ok) {
+      if (response.status > 200) {
         setLogicError((prev) => ({
           ...prev,
           errorData: response?.data?.message,
         }));
       }
       if (response.status === 200) {
-        const { accessToken } = response?.data;
-        if (!accessToken) {
+        const { success } = response?.data;
+        if (!success) {
           setLogicError((prev) => ({
             ...prev,
             errorData: "Invalid user data recieved",
           }));
-          navigate("/login");
+        } else {
+          navigate("/resetpwd");
         }
-        const userData = jwtDecode(accessToken);
-        const { id, fullName } = userData;
-        setAuth((prev) => ({ ...prev, id, fullName, accessToken }));
-        navigate("/dashboard/", { state: { fullName } });
+        // const userData = jwtDecode(accessToken);
+        // const { id, fullName } = userData;
+        // setAuth((prev) => ({ ...prev, id, fullName, accessToken }));
+        // navigate("/dashboard/", { state: { fullName } });
 
-        console.log(userData);
+        // console.log(userData);
       }
     } catch (error) {
       const err = errorMsg(error);
@@ -117,6 +120,8 @@ export default function LoginPage() {
         onSubmit={handleSubmit(onSubmit)}
         className=" w-[90%]   min-h-[10rem] flex flex-col  gap-3  justify-center items-center p-2"
       >
+        {/* EMAIL FEILD */}
+
         <div className="form-div-style">
           <label htmlFor="email" className="form-label-style ">
             Email:{" "}
@@ -152,56 +157,86 @@ export default function LoginPage() {
         </div>
         {/* END OF EMAIL */}
 
-        {/* PASSWORD  */}
+        {/* END OF EMAIL FIELD */}
+
+        {/* SECRET QUESTIONS*/}
+
         <div className="form-div-style">
-          <label htmlFor="password" className="form-label-style ">
-            Password:{" "}
+          <label htmlFor="secretQuestion" className="form-label-style ">
+            Secret Question:{" "}
+          </label>
+          <select
+            type="text"
+            id="secretQuestion"
+            {...register("secretQuestion", {
+              required: { value: true, message: "Please fill this field" },
+            })}
+            name="secretQuestion"
+            className={`form-input-style  ${
+              errors.secretQuestion ? "border-red-400" : "border-green-500"
+            } `}
+          >
+            {" "}
+            {secretQuestions.map((data) => (
+              <option key={data?.id} value={data?.name}>
+                {data?.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* END OF SECRET QUESTIONS */}
+
+        {/* SECRET ANSWER */}
+
+        <div className="form-div-style">
+          <label htmlFor="secretAnswer" className="form-label-style ">
+            Secret Answer:{" "}
           </label>
           <input
             type="text"
-            placeholder="MikePwd&44%"
-            id="password"
-            name="password"
-            {...register("password", {
+            id="secretAnswer"
+            {...register("secretAnswer", {
               required: { value: true, message: "Please fill this field" },
-              maxLength: { value: 25, message: "Length exceeded." },
+              maxLength: { value: 50, message: "Length exceeded." },
               minLength: {
-                value: 7,
-                message: "input data should be more than six (6) characters.",
+                value: 1,
+                message: "input characters are too short.",
               },
             })}
+            name="secretAnswer"
             className={`form-input-style  ${
-              errors.password ? "border-red-400" : "border-green-500"
+              errors.secretAnswer ? "border-red-400" : "border-green-500"
             } `}
           />
-          {errors?.password && errors?.password?.type === "required" && (
-            <p className="error-msg-style">{errors?.password?.message}</p>
+          {errors?.secretAnswer && errors?.secretAnswer?.type == "required" && (
+            <p className="error-msg-style">{errors?.secretAnswer?.message}</p>
           )}
 
-          {errors?.password && errors?.password?.type === "maxLength" && (
-            <p className="error-msg-style"> {errors?.password?.message}</p>
-          )}
+          {errors?.secretAnswer &&
+            errors?.secretAnswer?.type == "maxLength" && (
+              <p className="error-msg-style">
+                {" "}
+                {errors?.secretAnswer?.message}
+              </p>
+            )}
 
-          {errors?.password && errors?.password?.type === "minLength" && (
-            <p className="error-msg-style"> {errors?.password?.message}</p>
-          )}
+          {errors?.secretAnswer &&
+            errors?.secretAnswer?.type == "minLength" && (
+              <p className="error-msg-style">
+                {" "}
+                {errors?.secretAnswer?.message}
+              </p>
+            )}
         </div>
-        {/* END OF PASSWORD */}
+
+        {/* END OF SECRET ANSWER */}
 
         <input
           type="submit"
           className="bg-[#0a572a]  text-xl tracking-wide rounded-lg  mx-auto block  p-2"
         />
       </form>
-      <p>
-        Forgot password click{" "}
-        <Link
-          to="/forgotpwd"
-          className=" text-blue-600  text-bold tracking-wide "
-        >
-          here
-        </Link>
-      </p>
     </main>
   );
 

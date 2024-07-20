@@ -5,7 +5,7 @@ import Footer from "./pages/fragments/Footer";
 import Header from "./pages/fragments/Header";
 import { Outlet } from "react-router-dom";
 
-function App() {
+function App({ children }) {
   return (
     <>
       <Header />

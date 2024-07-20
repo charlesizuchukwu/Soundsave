@@ -1,5 +1,5 @@
-import dotenv from "dotenv";
-import jwt from "jsonwebtoken";
+const dotenv = require("dotenv");
+const jwt = require("jsonwebtoken");
 
 dotenv.config();
 
@@ -13,10 +13,10 @@ const verifyJwt = (req, res, next) => {
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
     if (err) return res.status(403).json({ message: "Forbidden" });
 
-    req.use = decoded._id;
+    req.user = decoded._id;
 
     next();
   });
 };
 
-export default verifyJwt;
+module.exports = verifyJwt;

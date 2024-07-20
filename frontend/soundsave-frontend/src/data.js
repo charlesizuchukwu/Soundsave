@@ -18,7 +18,7 @@ export const footerData = [
 export const dashboardFooterData = [
   {
     name: "Home",
-    url: "/dashboard/dashboardHome",
+    url: "/dashboard",
     comp: <IoHomeSharp className="df-icon-stye" />,
     id: 1,
   },
@@ -40,4 +40,13 @@ export const dashboardFooterData = [
     comp: <IoSettings className="df-icon-stye" />,
     id: 4,
   },
+];
+
+export const secretQuestions = [
+  { name: "In what city were you born?", id: 1 },
+  { name: "What is the name of your favorite pet?", id: 2 },
+  { name: "What high school did you attend?", id: 3 },
+  { name: "What was your favorite food as a child?", id: 4 },
+  { name: "What color do you like the most?", id: 5 },
+  { name: "What is your favorite artist name?", id: 6 },
 ];

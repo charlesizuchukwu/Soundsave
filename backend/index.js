@@ -16,6 +16,7 @@ const {
   downLoadSong,
   deleteSong,
   getSpecificArtistSong,
+  streamSong,
 } = require("./middlewares/songMiddleware.js");
 const isArtist = require("./middlewares/isArtist.js");
 // const { uploadSong } = require("./middlewares/songMiddleware.js");
@@ -33,15 +34,25 @@ const port = process.env.PORT || 4000;
 const upload = multer({ dest: path.join(__dirname, ".") });
 
 app.use(cors(corsOptions));
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE");
+//   res.setHeader(
+//     "Access-Control-Allow-Methods",
+//     "Content-Type",
+//     "Authorization"
+//   );
+// });
 app.use(express.json());
 // app.use(fileUpload());
 app.use(cookieParser());
 // app.use(multer({ dest: path.join(__dirname, ".") }));
 
 app.use(artistRoute);
-app.post("/upload", upload.any(), uploadSong);
+app.post("/upload/:id", upload.any(), uploadSong);
 app.get("/getallsongs", getAllSongs);
 app.get("/downloadsong/:id/:name", downLoadSong);
+app.get("/streamsong/:id/:name", streamSong);
 app.get("/getsingleartistsongs/:id", getSpecificArtistSong);
 app.delete("/deletesong/:id", deleteSong);
 

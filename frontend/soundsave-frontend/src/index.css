@@ -56,6 +56,6 @@ body {
 
 /*CUSTOM CAROUSEL DESIGN */
 
-.slide-unit {
-  @apply min-w-[12rem]  h-[10rem]  rounded-md bg-green-600;
+.carousel-container {
+  @apply bg-green-500;
 }

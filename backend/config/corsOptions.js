@@ -2,10 +2,10 @@ const { allowedOringins } = require("./allowedOrigins.js");
 
 const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin || allowedOringins.indexOf(origin) === -1) {
+    if (!origin || allowedOringins.indexOf(origin) == -1) {
       return callback(null, true);
     } else {
-      return callback("Origin not alloed by cor", false);
+      return callback("Origin not allowed by cor", false);
     }
   },
 

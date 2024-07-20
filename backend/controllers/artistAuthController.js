@@ -31,17 +31,17 @@ const login = asyncHandler(async (req, res) => {
   }
 
   const accessToken = jwt.sign(
-    { id: foundUser._id },
+    { id: foundUser._id, fullName: foundUser.fullName },
     process.env.ACCESS_TOKEN_SECRET,
     {
-      expiresin: "1d",
+      expiresIn: "1d",
     }
   );
 
   const refreshToken = jwt.sign(
-    { id: foundUser._id },
+    { id: foundUser._id, fullName: foundUser.fullName },
     process.env.REFRESH_TOKEN_SECRET,
-    { expiresin: "2d" }
+    { expiresIn: "2d" }
   );
 
   res.cookie("jwt", refreshToken, {
@@ -68,9 +68,9 @@ const refresh = asyncHandler(async (req, res) => {
     if (!foundUser) return res.status(401).json({ message: "Unauthorized." });
 
     const accessToken = jwt.sign(
-      { id: foundUser._id },
+      { id: foundUser._id, fullName: foundUser.fullName },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresin: "2d" }
+      { expiresIn: "2d" }
     );
     return res.status(200).json({ accessToken });
   });
@@ -85,8 +85,70 @@ const logout = asyncHandler(async (req, res) => {
   return res.json({ message: "Cookie cleard" });
 });
 
+const forgotPassword = asyncHandler(async (req, res) => {
+  const { email, secretQuestion, secretAnswer } = req.body;
+  const dt = { email, secretQuestion, secretAnswer };
+  console.log(dt);
+  if (!email || !secretAnswer || !secretQuestion) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  if (!validator.validate(email)) {
+    return res.status(400).json({ message: "Invalid email address" });
+  }
+
+  const foundUser = await musicArtists.findOne({ email });
+  if (!foundUser) {
+    return res.status(400).json({ message: "User not found." });
+  }
+
+  if (
+    foundUser?.secretQuestion.trim().toLowerCase() !==
+      secretQuestion.trim().toLowerCase() ||
+    foundUser?.secretAnswer.trim().toLowerCase() !==
+      secretAnswer.trim().toLowerCase()
+  ) {
+    return res
+      .status(400)
+      .json({ message: "Wrong secret question or answer." });
+  }
+
+  return res.status(200).json({ success: true });
+});
+
+const resetPassowrd = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ message: "All fields are required." });
+  }
+
+  if (!validator.validate(email)) {
+    return res.status(400).json({ message: "Invalid email address" });
+  }
+
+  const foundUser = await musicArtists.findOne({ email });
+  if (!foundUser) {
+    return res.status(400).json({ message: "Invalid user" });
+  }
+
+  foundUser.password = await bcrypt.hash(password, 10);
+
+  const savedUser = await musicArtists.findOneAndUpdate(
+    { email: foundUser.email },
+    { password: foundUser.password }
+  );
+
+  if (!savedUser) {
+    return res.status(400).json({ message: "Invalid user data recieved" });
+  }
+
+  return res.status(200).json({ success: true });
+});
+
 module.exports = {
   login,
   refresh,
   logout,
+  forgotPassword,
+  resetPassowrd,
 };
