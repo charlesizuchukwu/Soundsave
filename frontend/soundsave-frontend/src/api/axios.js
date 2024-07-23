@@ -8,6 +8,12 @@ export default axios.create({
 
 export const axiosPrivate = axios.create({
   baseURL: BASE_URL,
-  headers: { "Content-Type": "application/json" },
-  withCredentials: true,
+  headers: {
+    withCredentials: true,
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Credentials": true,
+  },
 });
+// "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+
+// "Access-Control-Allow-Origin": "http://127.0.0.1:5000",

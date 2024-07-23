@@ -1,19 +1,23 @@
-const { allowedOringins } = require("./allowedOrigins.js");
+const { allowedOrigins } = require("./allowedOrigins");
+
+// import allowedOrigins from "./allowedOrigins.js";
 
 const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin || allowedOringins.indexOf(origin) == -1) {
+    if (!origin || allowedOrigins.indexOf(origin) === -1) {
       return callback(null, true);
     } else {
-      return callback("Origin not allowed by cor", false);
+      return callback("Origin not allowed", false);
     }
   },
-
-  Credential: true,
-  optionSuccessStatus: 200,
-  methods: "GET, PATCH, DELETE, POST",
+  credentials: true,
+  methods: "GET, PATCH, POST, DELETE",
   allowedHeaders: ["Content-Type", "Authorization"],
   "Access-Control-Allow-Credentials": true,
+
+  optionsSuccessStatus: 200,
 };
 
 module.exports = { corsOptions };
+
+// preflightContinue: false,

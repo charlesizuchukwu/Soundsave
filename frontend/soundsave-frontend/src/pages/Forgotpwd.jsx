@@ -99,7 +99,7 @@ export default function Forgotpwd() {
     <main className="w-full min-h-screen   bg-[#1c2121]  text-white  flex  flex-col py-16  justify-around  items-center  ">
       <div>
         {" "}
-        <span className="text-xl font-bold mr-1">Signin</span>{" "}
+        <span className="text-xl font-bold mr-1">Forgot Password</span>{" "}
         <FaRegCircleUser className="inline  text-[1.5rem] " />{" "}
       </div>
       <hr className="w-[50%] bg-white" />

@@ -13,7 +13,7 @@ body {
 /* REGISTER PAGE STYLE */
 
 .form-div-style {
-  @apply w-[98%]  min-h-[6rem]    p-2 flex flex-col  justify-around  items-center;
+  @apply w-[98%] lg:w-[60%]   min-h-[6rem] mx-auto    p-2 flex flex-col  justify-around  items-center;
 }
 
 .form-label-style {
@@ -58,4 +58,10 @@ body {
 
 .carousel-container {
   @apply bg-green-500;
+}
+
+/* HEADER STYLE */
+
+.header-link {
+  @apply lg:text-[1.2rem] font-bold tracking-wide  hover:underline  hover:underline;
 }

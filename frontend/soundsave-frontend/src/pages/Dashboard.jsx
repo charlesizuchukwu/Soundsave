@@ -6,7 +6,7 @@ import useAuth from "../hooks/useAuth";
 export default function Dashboard() {
   const { auth, setAuth } = useAuth();
   const content = (
-    <main className="relative">
+    <main className=" relative  ">
       <DashboardHeader value={{ auth }} />
 
       <Outlet context={{ auth, setAuth }} />

@@ -6,6 +6,7 @@ import { useOutletContext } from "react-router-dom";
 import ScaleLoader from "react-spinners/ScaleLoader";
 import { errorMsg } from "../../../helper/errorMsg";
 import useRouteProtect from "../../../hooks/useRouteProtect";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 export default function SongUploadUi() {
   const [file, setFile] = useState();
@@ -13,6 +14,7 @@ export default function SongUploadUi() {
   const [errMsg, setErrMsg] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [isAllowed, setIsAllowed] = useState(false);
+  const axiosPrivate = useAxiosPrivate();
   // const { register, handleSubmit } = useForm();
 
   const { auth } = useOutletContext();
@@ -27,8 +29,20 @@ export default function SongUploadUi() {
       setIsLoading(true);
       const formData = new FormData();
       formData.append("file", file);
-      const res = axios.post(`/upload/${auth?.id}`, formData);
+      const res = axiosPrivate.post(
+        `/upload`,
+        formData,
+
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            "Access-Control-Allow-Credentials": true,
+            withCredentials: true,
+          },
+        }
+      );
       const serverRes = await res;
+      console.log(serverRes);
       if (serverRes?.status > 201) {
         setErrMsg(
           serverRes?.data?.message ? serverRes?.data?.message : serverRes?.data
@@ -54,19 +68,20 @@ export default function SongUploadUi() {
         // encType="multipart/form-data"
         className="w-[90%]  min-h-[10rem]  overflow-hidden  flex flex-col gap-4 p-3 "
       >
-        {isLoading && (
+        {isLoading ? (
           <ScaleLoader
             color="white"
             className="mx-auto"
             cssOverride={{ height: "500", width: "500" }}
           />
-        )}
-
-        {errMsg && <p className="error-msg-style ">{errMsg}</p>}
-        {successMsg && (
-          <p className="text-green-500 text-center tracking-wide ">
-            &#10003; {successMsg}
-          </p>
+        ) : errMsg ? (
+          <p className="error-msg-style ">{errMsg}</p>
+        ) : (
+          successMsg && (
+            <p className="text-green-500 text-center tracking-wide ">
+              &#10003; {successMsg}
+            </p>
+          )
         )}
         <div className="  w-[80%]  mx-auto flex flex-col gap-3 text-center ">
           <label htmlFor="song">

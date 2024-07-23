@@ -67,29 +67,29 @@ export default function SettingUi() {
         "Content-Type": "application/json",
       },
     };
-    const controller = new AbortController();
+    // const controller = new AbortController();
     try {
       setIsloading(true);
-      const response = await axiosPrivate.patch(
-        "/settings",
-        credentials,
-        apiHeader,
-        { signal: controller.signaLl }
-      );
+      const response = await axiosPrivate.patch("/settings", credentials, {});
+      // signal: controller.signal,
+
+      console.log(response);
 
       if (response?.status === 200) {
         setLogicSuccessMsg(response?.data?.message);
+      } else {
+        navigate("/login");
       }
     } catch (error) {
       // setLogicError("Something went wrong, please try again later");
       // throw new Error(error);
       const err = errorMsg(error);
-      navigate("/login", { state: { from: location }, replace: true });
+      // navigate("/login", { state: { from: location }, replace: true });
       setLogicError(err);
     } finally {
       reset();
       setIsloading(false);
-      controller.abort();
+      // controller.abort();
     }
   };
 
@@ -98,7 +98,7 @@ export default function SettingUi() {
     try {
       const response = await axiosPrivate("/logout");
       console.log(response);
-      // navigate("/")
+      navigate("/");
     } catch (error) {
       const err = errorMsg(error);
       setLogicError(err);
@@ -150,18 +150,20 @@ export default function SettingUi() {
         Logout
       </button>
       <hr className="w-[50%]  my-4 bg-white" />
-      {logicSuccessMsg && logicSuccessMsg != "" && (
+      {logicSuccessMsg && logicSuccessMsg != "" ? (
         <p className="text-green-500  mx-auto  tracking-wide">
           {" "}
           &#10003; {logicSuccessMsg}{" "}
         </p>
-      )}
-      {logicError && <p className="error-msg-style">{logicError}</p>}
-      {loading && (
-        <ScaleLoader
-          color="white"
-          cssOverride={{ height: "500", width: "500" }}
-        />
+      ) : logicError ? (
+        <p className="error-msg-style">{logicError}</p>
+      ) : (
+        loading && (
+          <ScaleLoader
+            color="white"
+            cssOverride={{ height: "500", width: "500" }}
+          />
+        )
       )}
 
       <form
@@ -476,5 +478,6 @@ export default function SettingUi() {
     </main>
   );
 
+  // return content;
   return isAllowed === true && content;
 }

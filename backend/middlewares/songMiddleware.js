@@ -6,7 +6,9 @@ const path = require("path");
 
 // UPLOAD SONG
 const uploadSong = async (req, res, next) => {
-  const { id } = req.params;
+  // const { id } = req.params;
+  const id = req.user;
+  console.log(id);
   if (!id) {
     return res.status(400).json({ message: "User id must be provided." });
   }
@@ -159,7 +161,9 @@ const deleteSong = async (req, res, next) => {
 
 const getSpecificArtistSong = asyncHandler(async (req, res, next) => {
   // return res.send(req.params);
-  const { id } = req.params;
+  // const { id } = req.params;
+  const id = req.user;
+  // console.log(id);
 
   if (!id) {
     return res.status(400).json({ message: "User id must be provided." });

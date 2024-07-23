@@ -91,7 +91,7 @@ export default function RegisterPage() {
       <form
         action=""
         onSubmit={handleSubmit(onSubmit)}
-        className=" w-[90%]   min-h-[10rem] flex flex-col  gap-3  justify-center items-center p-2"
+        className=" w-[90%]   min-h-[10rem] flex flex-col lg:grid lg:grid-cols-2  gap-3  justify-center items-center p-2"
       >
         {/* FULL NAME  */}
         <div className="form-div-style">
@@ -333,7 +333,7 @@ export default function RegisterPage() {
         {/* END OF SECRET ANSWER */}
         <input
           type="submit"
-          className="bg-[#0a572a]  text-xl tracking-wide rounded-lg  mx-auto block  p-2"
+          className="bg-[#0a572a]  text-xl tracking-wide rounded-lg  mx-auto block  p-2  lg:col-span-2"
         />
       </form>
     </main>

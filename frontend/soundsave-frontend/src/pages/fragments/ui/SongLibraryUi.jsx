@@ -5,6 +5,7 @@ import { errorMsg } from "../../../helper/errorMsg";
 // import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "../../../api/axios";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import { useOutletContext } from "react-router-dom";
 import { FaFaceFrown } from "react-icons/fa6";
 import { PiWarningOctagonFill } from "react-icons/pi";
@@ -24,7 +25,7 @@ export default function SongLibraryUi() {
   const navigate = useNavigate();
   const location = useLocation();
   const { auth } = useOutletContext();
-  // const axiosPrivate = useAxiosPrivate();
+  const axiosPrivate = useAxiosPrivate();
 
   console.log(auth);
 
@@ -56,7 +57,7 @@ export default function SongLibraryUi() {
     console.log(id);
     try {
       setIsLoading(true);
-      const response = await axios.delete(`/deletesong/${id}`);
+      const response = await axiosPrivate.delete(`/deletesong/${id}`);
       console.log(response);
       if (response.status > 201) {
         console.log(response?.data?.message);
@@ -88,11 +89,13 @@ export default function SongLibraryUi() {
       // };
       try {
         setIsLoading(true);
-        const response = await axios.get(
-          `/getsingleartistsongs/${auth?.id}`,
+        const response = await axiosPrivate.get(
+          `/getsingleartistsongs`,
 
           apiHeader
         );
+
+        console.log(response);
 
         if (response.status > 200) {
           setErrMsg(response?.data?.message);
@@ -173,7 +176,7 @@ export default function SongLibraryUi() {
                   }}
                   className="text-green-500  border-2 border-gray-400 p-1 shadow-md shadow-green-400  rounded-md"
                 >
-                  <IoMdDownload className="inline     " /> Download
+                  <IoMdDownload className="inline  animate-pulse   " /> Download
                 </button>
                 <button
                   onClick={() => {

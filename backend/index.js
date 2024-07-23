@@ -1,7 +1,7 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const errorHandler = require("./middlewares/errorHandler.js");
-const { corsOptions } = require("./config/corsOptions.js");
+const corsOptions = require("./config/corsOptions.js");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const { dbConn } = require("./config/dbConn.js");
@@ -18,6 +18,7 @@ const {
   getSpecificArtistSong,
   streamSong,
 } = require("./middlewares/songMiddleware.js");
+const verifyJwt = require("./middlewares/verifyJwt.js");
 const isArtist = require("./middlewares/isArtist.js");
 // const { uploadSong } = require("./middlewares/songMiddleware.js");
 
@@ -49,12 +50,12 @@ app.use(cookieParser());
 // app.use(multer({ dest: path.join(__dirname, ".") }));
 
 app.use(artistRoute);
-app.post("/upload/:id", upload.any(), uploadSong);
+app.post("/upload", verifyJwt, upload.any(), uploadSong);
 app.get("/getallsongs", getAllSongs);
 app.get("/downloadsong/:id/:name", downLoadSong);
 app.get("/streamsong/:id/:name", streamSong);
-app.get("/getsingleartistsongs/:id", getSpecificArtistSong);
-app.delete("/deletesong/:id", deleteSong);
+app.get("/getsingleartistsongs", verifyJwt, getSpecificArtistSong);
+app.delete("/deletesong/:id", verifyJwt, deleteSong);
 
 app.all("*", (req, res) => {
   res.status(404);
