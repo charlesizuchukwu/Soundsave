@@ -8,6 +8,8 @@ const verifyJwt = require("../middlewares/verifyJwt.js");
 const router = express.Router();
 
 router.route("/register").post(artistController.register);
+router.route("/").get(artistController.welcome);
+
 router.route("/settings").patch(verifyJwt, artistController.profileSettings);
 router.route("/allartists").get(artistController.getAllArtist);
 // router

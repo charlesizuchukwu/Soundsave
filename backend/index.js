@@ -50,9 +50,6 @@ app.use(cookieParser());
 // app.use(multer({ dest: path.join(__dirname, ".") }));
 
 app.use(artistRoute);
-app.use("/", (req, res) => {
-  return res.status(400).json({ msg: "welcome" });
-});
 app.post("/upload", verifyJwt, upload.any(), uploadSong);
 app.get("/getallsongs", getAllSongs);
 app.get("/downloadsong/:id/:name", downLoadSong);

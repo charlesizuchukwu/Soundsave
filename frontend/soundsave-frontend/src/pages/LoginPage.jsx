@@ -45,14 +45,9 @@ export default function LoginPage() {
 
     try {
       const credentials = { email, password };
-      const apiHeader = {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      };
+
       setIsloading(true);
-      const response = await axios.post("/login", credentials, apiHeader);
+      const response = await axios.post("/login", credentials);
 
       console.log(response);
 

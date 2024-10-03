@@ -65,11 +65,7 @@ export default function LandingPage() {
       let searchDataArray = [];
       try {
         setLoading(true);
-        const serverRes = await axios.get("/getallsongs", {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const serverRes = await axios.get("/getallsongs");
 
         console.log(serverRes);
         if (serverRes.status > 200) {
@@ -215,7 +211,7 @@ export default function LandingPage() {
         <motion.div
           whileInView={{ opacity: 1 }}
           animate={{ opacity: 0 }}
-          transition={{ duration: 0.9 }}
+          transition={{ duration: 1.3 }}
         >
           <h2 className="text-[1.5rem] font-bold mx-auto">
             why choose{" "}

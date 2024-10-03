@@ -16,6 +16,10 @@ const editor = (prev, rec) => {
   return prev === "" && rec === "None" ? prev : rec;
 };
 
+const welcome = async (req, res) => {
+  return res.status(200).send("WELCOME TO SOUNDSAVE");
+};
+
 const register = async (req, res) => {
   const { email, fullName, password, secretQuestion, secretAnswer } = req.body;
   if (!email || !fullName || !password || !secretQuestion || !secretAnswer) {
@@ -163,6 +167,7 @@ module.exports = {
   register,
   profileSettings,
   getAllArtist,
+  welcome,
 };
 // getSpecificArtistSong,
 

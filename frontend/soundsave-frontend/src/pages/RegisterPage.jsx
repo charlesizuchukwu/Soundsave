@@ -2,7 +2,8 @@ import { useForm } from "react-hook-form";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import ScaleLoader from "react-spinners/ScaleLoader";
-import axios from "axios";
+// import axios from "axios";
+import axios from "../api/axios";
 import * as EmailValidator from "email-validator";
 import { useNavigate } from "react-router-dom";
 import { errorMsg } from "../helper/errorMsg";
@@ -45,20 +46,11 @@ export default function RegisterPage() {
         secretAnswer,
         secretQuestion,
       };
-      const apiHeader = {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      };
-      setIsloading(true);
-      const response = await axios.post(
-        "http://127.0.0.1:5000/register",
-        credentials,
-        apiHeader
-      );
 
-      // console.log(response);
+      setIsloading(true);
+      const response = await axios.post("/register", credentials);
+
+      console.log(response);
       if (response.status === 201) {
         navigate("/login");
       }

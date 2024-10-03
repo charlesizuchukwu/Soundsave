@@ -11,6 +11,7 @@ import { errorMsg } from "../../../helper/errorMsg";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import { useNavigate, useLocation, useOutletContext } from "react-router-dom";
 import useRouteProtect from "../../../hooks/useRouteProtect";
+import useAuth from "../../../hooks/useAuth";
 
 export default function SettingUi() {
   // LOGIC STATES AND VARIABLES
@@ -22,11 +23,15 @@ export default function SettingUi() {
   const axiosPrivate = useAxiosPrivate();
   const location = useLocation();
   const { auth } = useOutletContext();
+  const { auth: dt } = useAuth();
+
+  console.log(dt);
 
   // /dashboard/settings ROUTE PROTECTION
 
   useRouteProtect(auth?.accessToken, setIsAllowed);
 
+  console.log(auth);
   // DESTRUCTURED USEFORM DATA
 
   const {
@@ -70,7 +75,7 @@ export default function SettingUi() {
     // const controller = new AbortController();
     try {
       setIsloading(true);
-      const response = await axiosPrivate.patch("/settings", credentials, {});
+      const response = await axiosPrivate.patch("/settings", credentials);
       // signal: controller.signal,
 
       console.log(response);

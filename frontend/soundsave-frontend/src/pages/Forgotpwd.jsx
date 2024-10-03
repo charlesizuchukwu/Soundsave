@@ -45,15 +45,10 @@ export default function Forgotpwd() {
 
     try {
       const credentials = { secretQuestion, secretAnswer, email };
-      const apiHeader = {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      };
+
       setAuth((prev) => ({ ...prev, email }));
       setIsloading(true);
-      const response = await axios.post("/forgotpwd", credentials, apiHeader);
+      const response = await axios.post("/forgotpwd", credentials);
 
       console.log(response);
 
