@@ -10,6 +10,10 @@ body {
   @apply bg-black  text-white;
 }
 
+main {
+  @apply z-0;
+}
+
 /* REGISTER PAGE STYLE */
 
 .form-div-style {
@@ -63,5 +67,5 @@ body {
 /* HEADER STYLE */
 
 .header-link {
-  @apply lg:text-[1.2rem] font-bold tracking-wide  hover:underline  hover:underline;
+  @apply lg:text-[1.1rem]  text-[0.8rem]  font-thin  tracking-wide   hover:underline;
 }

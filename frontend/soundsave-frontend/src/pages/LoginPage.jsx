@@ -9,6 +9,7 @@ import axios from "../api/axios";
 import { errorMsg } from "../helper/errorMsg";
 import { jwtDecode } from "jwt-decode";
 import useAuth from "../hooks/useAuth";
+import newsinger from "../assets/newsinger.jpg";
 
 export default function LoginPage() {
   // DESTRUCTURED USEFORM DATA
@@ -93,115 +94,123 @@ export default function LoginPage() {
   // console.log("hello");
   // REGISTER PAGE CONTENT
   const content = (
-    <main className="w-full min-h-screen   bg-[#1c2121]  text-white  flex  flex-col py-16  justify-around  items-center  ">
-      <div>
-        {" "}
-        <span className="text-xl font-bold mr-1">Signin</span>{" "}
-        <FaRegCircleUser className="inline  text-[1.5rem] " />{" "}
-      </div>
-      <hr className="w-[50%] bg-white" />
-
-      {logicError.errorData && (
-        <p className="error-msg-style ">{logicError.errorData}</p>
-      )}
-
-      {loading && (
-        <ScaleLoader
-          color="white"
-          cssOverride={{ height: "500", width: "500" }}
-        />
-      )}
-
-      <form
-        action=""
-        onSubmit={handleSubmit(onSubmit)}
-        className=" w-[90%]   min-h-[10rem] flex flex-col  gap-3  justify-center items-center p-2"
+    <main className="w-full min-h-screen    text-white  flex  flex-col md:flex-row  justify-around  items-center  ">
+      <section
+        className="w-full  h-[25rem]  md:h-[50rem]  bg-center bg-no-repeat bg-cover   "
+        style={{ backgroundImage: `url(${newsinger})` }}
       >
-        <div className="form-div-style">
-          <label htmlFor="email" className="form-label-style ">
-            Email:{" "}
-          </label>
-          <input
-            type="text"
-            placeholder="mike@gmail.com"
-            id="email"
-            {...register("email", {
-              required: { value: true, message: "Please fill this field" },
-              maxLength: { value: 50, message: "Length exceeded." },
-              pattern: {
-                value: /\S+@\S+\.\S+/,
-                message: "Invalid email address",
-              },
-            })}
-            name="email"
-            className={`form-input-style  ${
-              errors?.email ? "border-red-400" : "border-green-500"
-            } `}
-          />
-          {errors?.email && errors?.email?.type === "required" && (
-            <p className="error-msg-style">{errors?.email?.message}</p>
-          )}
-
-          {errors?.email && errors?.email?.type === "maxLength" && (
-            <p className="error-msg-style"> {errors?.email?.message}</p>
-          )}
-
-          {errors?.email && errors?.email?.type === "pattern" && (
-            <p className="error-msg-style"> {errors?.email?.message}</p>
-          )}
+        <div className="w-full h-[25rem]  md:h-[50rem]  bg-gradient-to-b    md:bg-gradient-to-r from-transparent to-black"></div>
+      </section>
+      <section className="w-full  flex flex-col justify-center  gap-4 items-center">
+        <div>
+          {" "}
+          <span className="text-xl font-bold mr-1">Signin</span>{" "}
+          <FaRegCircleUser className="inline  text-[1.5rem] " />{" "}
         </div>
-        {/* END OF EMAIL */}
+        <hr className="w-[50%] bg-white" />
 
-        {/* PASSWORD  */}
-        <div className="form-div-style">
-          <label htmlFor="password" className="form-label-style ">
-            Password:{" "}
-          </label>
-          <input
-            type="text"
-            placeholder="MikePwd&44%"
-            id="password"
-            name="password"
-            {...register("password", {
-              required: { value: true, message: "Please fill this field" },
-              maxLength: { value: 25, message: "Length exceeded." },
-              minLength: {
-                value: 7,
-                message: "input data should be more than six (6) characters.",
-              },
-            })}
-            className={`form-input-style  ${
-              errors.password ? "border-red-400" : "border-green-500"
-            } `}
+        {logicError.errorData && (
+          <p className="error-msg-style ">{logicError.errorData}</p>
+        )}
+
+        {loading && (
+          <ScaleLoader
+            color="white"
+            cssOverride={{ height: "500", width: "500" }}
           />
-          {errors?.password && errors?.password?.type === "required" && (
-            <p className="error-msg-style">{errors?.password?.message}</p>
-          )}
+        )}
 
-          {errors?.password && errors?.password?.type === "maxLength" && (
-            <p className="error-msg-style"> {errors?.password?.message}</p>
-          )}
-
-          {errors?.password && errors?.password?.type === "minLength" && (
-            <p className="error-msg-style"> {errors?.password?.message}</p>
-          )}
-        </div>
-        {/* END OF PASSWORD */}
-
-        <input
-          type="submit"
-          className="bg-[#0a572a]  text-xl tracking-wide rounded-lg  mx-auto block  p-2"
-        />
-      </form>
-      <p>
-        Forgot password click{" "}
-        <Link
-          to="/forgotpwd"
-          className=" text-blue-600  text-bold tracking-wide "
+        <form
+          action=""
+          onSubmit={handleSubmit(onSubmit)}
+          className=" w-[90%]   min-h-[10rem] flex flex-col  gap-3  justify-center items-center p-2"
         >
-          here
-        </Link>
-      </p>
+          <div className="form-div-style">
+            <label htmlFor="email" className="form-label-style ">
+              Email:{" "}
+            </label>
+            <input
+              type="text"
+              placeholder="mike@gmail.com"
+              id="email"
+              {...register("email", {
+                required: { value: true, message: "Please fill this field" },
+                maxLength: { value: 50, message: "Length exceeded." },
+                pattern: {
+                  value: /\S+@\S+\.\S+/,
+                  message: "Invalid email address",
+                },
+              })}
+              name="email"
+              className={`form-input-style  ${
+                errors?.email ? "border-red-400" : "border-green-500"
+              } `}
+            />
+            {errors?.email && errors?.email?.type === "required" && (
+              <p className="error-msg-style">{errors?.email?.message}</p>
+            )}
+
+            {errors?.email && errors?.email?.type === "maxLength" && (
+              <p className="error-msg-style"> {errors?.email?.message}</p>
+            )}
+
+            {errors?.email && errors?.email?.type === "pattern" && (
+              <p className="error-msg-style"> {errors?.email?.message}</p>
+            )}
+          </div>
+          {/* END OF EMAIL */}
+
+          {/* PASSWORD  */}
+          <div className="form-div-style">
+            <label htmlFor="password" className="form-label-style ">
+              Password:{" "}
+            </label>
+            <input
+              type="text"
+              placeholder="MikePwd&44%"
+              id="password"
+              name="password"
+              {...register("password", {
+                required: { value: true, message: "Please fill this field" },
+                maxLength: { value: 25, message: "Length exceeded." },
+                minLength: {
+                  value: 7,
+                  message: "input data should be more than six (6) characters.",
+                },
+              })}
+              className={`form-input-style  ${
+                errors.password ? "border-red-400" : "border-green-500"
+              } `}
+            />
+            {errors?.password && errors?.password?.type === "required" && (
+              <p className="error-msg-style">{errors?.password?.message}</p>
+            )}
+
+            {errors?.password && errors?.password?.type === "maxLength" && (
+              <p className="error-msg-style"> {errors?.password?.message}</p>
+            )}
+
+            {errors?.password && errors?.password?.type === "minLength" && (
+              <p className="error-msg-style"> {errors?.password?.message}</p>
+            )}
+          </div>
+          {/* END OF PASSWORD */}
+
+          <input
+            type="submit"
+            className="bg-[#0a572a]  text-xl tracking-wide rounded-lg  mx-auto block  p-2"
+          />
+        </form>
+        <p className="my-4">
+          Forgot password click{" "}
+          <Link
+            to="/forgotpwd"
+            className=" text-blue-600  text-bold tracking-wide "
+          >
+            here
+          </Link>
+        </p>
+      </section>
     </main>
   );
 

@@ -1,5 +1,5 @@
 import singer from "../assets/singernobg.png";
-import { domain } from "../data";
+import { domain, partners, whychoose } from "../data";
 import ReactPlayer from "react-player";
 import { useEffect, useState } from "react";
 import axios from "../api/axios";
@@ -15,6 +15,10 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { SiYoutubemusic } from "react-icons/si";
 import { IoSearchSharp } from "react-icons/io5";
+import { MdKeyboardDoubleArrowDown } from "react-icons/md";
+import songartist from "../assets/songartist.jpg";
+import choose from "../assets/choose.jpg";
+import { motion } from "framer-motion";
 
 export default function LandingPage() {
   const [err, setErr] = useState("");
@@ -112,27 +116,128 @@ export default function LandingPage() {
   console.log(searchData);
 
   const content = (
-    <main className="min-h-screen w-full  flex flex-col">
+    <main className="min-h-screen w-full    flex flex-col  z-0">
       <section
-        className={` w-full min-h-[10rem] bg-gradient-to-r from-gray-600    to-[#0a572a] text-white relative  pt-1 px-2`}
+        className={` w-full min-h-[30rem]  text-center             bg-center bg-cover bg-no-repeat `}
+        style={{ backgroundImage: `url(${songartist})` }}
       >
-        <h2 className=" w-[8rem]   tracking-wide font-bold lg:text-[1.7rem] xl:text-[2rem] lg:w-fit absolute lg:mt-[5rem]  lg:mr-[2.9rem] xl:mr-[6rem] right-3 text-center  text-opacity-50">
-          What's next in music is first on{" "}
-          <span className="underline underline-offset-2 font-black tracking-wider">
-            {" "}
+        <motion.div
+          whileInView={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 0, y: -25 }}
+          transition={{ duration: 0.6 }}
+          className="w-full min-h-[30rem] bg-gradient-to-b from-transparent  to-black  bg-opacity-30      flex flex-col justify-center  gap-5 items-center "
+        >
+          <h1 className=" w-[90%]   text-[2rem]  md:text-[2.2rem] leading-10 capitalize text-left  font-black">
+            <span className="bg-clip-text   text-transparent  bg-gradient-to-r from-blue-500 to-red-500">
+              SoundSave
+            </span>
+            , a leading platform for musicians, producers, and creators{" "}
+          </h1>
+          <p className="text-[0.8rem] md:text-[1.2rem] md:text-[0.9rem]  md:w-[40%] text-gray-300    w-[90%] tracking-wide  text-left ">
+            secure file sharing, music management, and copyright protection -
+            empowers artists to collaborate freely on unreleased projects while
+            safeguarding their intellectual property
+          </p>
+
+          <Link
+            to="/register"
+            className="rounded-full font-bold  block w-[90%]  md:w-[40%]  tracking-tight sm:w-[70%] text-[0.8rem]  px-3 py-2  bg-gradient-to-r from-blue-500  to-red-500"
+          >
+            SIGN UP NOW
+          </Link>
+
+          <MdKeyboardDoubleArrowDown className="mx-auto text-[1.4rem]   animate-bounce " />
+        </motion.div>
+      </section>
+
+      <section className="w-full min-h-full  flex flex-col  justify-center items-center gap-4">
+        <motion.h2
+          whileInView={{ x: 0, scale: 1 }}
+          animate={{ x: -60, scale: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-[1.5rem] hover:rounded-full   px-4 py-3 duration-200  hover:border-2  hover:border-white mx-auto  font-black  bg-clip-text text-transparent  bg-gradient-to-r from-blue-500   to-red-500 leaing-6 w-[90%] md:w-fit"
+        >
+          <span className="">Connect with our experts</span>{" "}
+          <span className="animate-pulse  text-white ml-2">&#10174;</span>
+        </motion.h2>
+
+        <motion.p
+          whileInView={{ x: 0 }}
+          animate={{ x: -60 }}
+          transition={{ duration: 0.5 }}
+          className="text-[0.8rem]  w-[90%]  md:w-[50%]  text-gray-400  md:text-center md:text-[1.2rem]"
+        >
+          Partner with our expert advisors for seamless distribution,
+          publishing, and marketing across all major platforms at the most
+          competitive prices. Connect with top industry professionals to amplify
+          your reach and maximize your impact in the music industry.
+        </motion.p>
+
+        <motion.ul
+          whileInView={{ opacity: 1 }}
+          animate={{ opacity: 0 }}
+          transition={{ duration: 1.3 }}
+          className="w-[90%] mx-auto grid sm:grid-cols-2 lg:grid-cols-3  gap-3   text-[1.5rem]  font-bold"
+        >
+          {partners.map((data) => (
+            <li className=" ">
+              <div className="flex justify-center items-center">
+                {data.icon}
+                {data.name}
+              </div>
+            </li>
+          ))}
+        </motion.ul>
+
+        <Link
+          to="/register"
+          className="rounded-full font-bold  text-center  block w-[90%]  md:w-[40%]  tracking-tight sm:w-[70%] text-[0.8rem]  px-3 py-2  bg-gradient-to-r from-blue-500  to-red-500"
+        >
+          VIEW ALL 150+ STORES
+        </Link>
+      </section>
+
+      <section className="w-[90%]  mx-auto  my-[2rem]  flex flex-col  md:flex-row   gap-3 justify-around items-center ">
+        <motion.div
+          whileInView={{ opacity: 1, scale: 1 }}
+          animate={{ opacity: 0, scale: 0 }}
+          transition={{ duration: 0.6 }}
+          className=" w-[90%] md:w-[50%]  md:text-[1.2rem]   bg-gradient-to-b from-transparent to-black"
+        >
+          <img
+            src={choose}
+            alt="tunecore"
+            height={100}
+            width={100}
+            className="w-full h-full"
+          />
+        </motion.div>
+        <motion.div
+          whileInView={{ opacity: 1 }}
+          animate={{ opacity: 0 }}
+          transition={{ duration: 0.9 }}
+        >
+          <h2 className="text-[1.5rem] font-bold mx-auto">
+            why choose{" "}
+            <span className=" bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-blue-500">
+              SoundSave
+            </span>
+          </h2>
+          <ul className="list-disc  list-inside trackng-wide leading-7 font-bold text-[0.8rem]   md:text-[1.2rem]">
+            {whychoose.map((data) => (
+              <li key={data.id}>{data.name}</li>
+            ))}
+          </ul>
+        </motion.div>
+      </section>
+
+      <section className="w-full  min-h-[10rem]  my-[2rem]  ">
+        <h3 className=" w-[80%] text-center  text-[1.5rem]  mx-auto  my-3  font-semibold  tracking-wide">
+          {" "}
+          Explore the trending tracks on{" "}
+          <span className=" bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-red-500">
             {domain}
           </span>
-        </h2>
-        {/* <p className=" w-fit  absolute lg:bottom-3  right-0 lg:mb-[5rem]  lg:mr-[2.9rem] text-center ">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Provident,
-          unde.
-        </p> */}
-        <img src={singer} alt="singer" height={500} width={500} className="" />
-      </section>
-      <section className="w-full  min-h-[10rem]    bg-[#1c2121] text-white">
-        <h3 className=" w-[80%]  text-center  mx-auto  my-3  font-semibold  tracking-wide">
-          {" "}
-          Explore the trending tracks on {domain}
         </h3>
         <form
           action=" "
@@ -150,7 +255,7 @@ export default function LandingPage() {
             name="search"
           />
         </form>
-        <div className="w-[98%] p-1  h-[15rem]  mx-auto  flex  justify-around   gap-5   items-center   overflow-x-scroll   bg-gradient-to-l from-gray-500   to-[#0a572a]  ">
+        <div className="w-[90%] p-1  h-[15rem] rounded-[1.rem] mx-auto  flex  justify-around   gap-5   items-center   overflow-x-scroll   bg-gradient-to-b from-transparent  to-gray-900  ">
           {/* <Carousel
             responsive={responsive}
             centerMode={true}
@@ -193,7 +298,7 @@ export default function LandingPage() {
               </div>
             ))
           ) : typeof allSongs == "undefined" ? (
-            <b className="mx-auto text-center text-[1.1rem] text-red-500 tracking-wide">
+            <b className="mx-auto text-center text-[0.8rem] text-red-500 tracking-wide">
               Network error, please try again when connected to the internet.
             </b>
           ) : (
