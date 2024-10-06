@@ -12,6 +12,8 @@ import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import { useNavigate, useLocation, useOutletContext } from "react-router-dom";
 import useRouteProtect from "../../../hooks/useRouteProtect";
 import useAuth from "../../../hooks/useAuth";
+import secure from "../../../assets/secure.jpg";
+// import { jwtDecode } from "jwt-decode";
 
 export default function SettingUi() {
   // LOGIC STATES AND VARIABLES
@@ -29,6 +31,9 @@ export default function SettingUi() {
 
   // /dashboard/settings ROUTE PROTECTION
 
+  // const ud = jwtDecode(dt?.accessToken);
+
+  // console.log(ud);
   useRouteProtect(auth?.accessToken, setIsAllowed);
 
   console.log(auth);
@@ -112,7 +117,13 @@ export default function SettingUi() {
 
   // SETTING-UI CONTENT
   const content = (
-    <main className="w-full min-h-screen     text-white  flex  flex-col py-16  justify-around  items-center  ">
+    <main className="w-full min-h-full   text-white  flex  flex-col py-16  justify-around  items-center  ">
+      <section
+        className="w-full h-[10rem]  bg-center bg-cover bg-no-repeat   "
+        style={{ backgroundImage: `url(${secure})` }}
+      >
+        {/* <div className="w-full h-full bg-gradient-to-b from-transparent  to-black"></div> */}
+      </section>
       <div className="">
         {" "}
         <span className="text-xl font-bold mr-1">Profile Setting </span>{" "}
@@ -123,13 +134,13 @@ export default function SettingUi() {
           <li>
             Fullname:{" "}
             <span>
-              <b>james karl</b>
+              <b>{auth?.fullName}</b>
             </span>
           </li>
-          <li>
-            Email:{" "}
+          {/* <li>
+            users-Email:{" "}
             <span>
-              <b>james@gmail.com</b>
+              <b>user@gmail.com</b>
             </span>
           </li>
           <li>
@@ -142,8 +153,8 @@ export default function SettingUi() {
             Last Updated:{" "}
             <span>
               <b>4/12/2024</b>
-            </span>
-          </li>
+            </span> */}
+          {/* </li> */}
         </ul>
       </div>
       <button
@@ -174,7 +185,7 @@ export default function SettingUi() {
       <form
         action=""
         onSubmit={handleSubmit(onSubmit)}
-        className=" w-[90%]   min-h-[10rem] flex flex-col  gap-3  justify-center items-center p-2"
+        className=" w-[90%]   min-h-[10rem]   bg-gradient-to-b from-transparent to-black  flex flex-col  gap-3  justify-center items-center p-2"
       >
         {/* ARTIST STAGE NAME */}
         <div className="form-div-style">

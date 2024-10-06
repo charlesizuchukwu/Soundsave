@@ -14,6 +14,7 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 import fileDownload from "js-file-download";
 import { AudioPlayer } from "react-audio-play";
 import useRouteProtect from "../../../hooks/useRouteProtect";
+import songlib from "../../../assets/songlib.jpg";
 
 // import { errorMsg } from "../../../helper/errorMsg";
 
@@ -141,10 +142,13 @@ export default function SongLibraryUi() {
   console.log(errMsg);
 
   const content = (
-    <main className="w-full min-h-screen    text-white   text-center">
-      <div className="h-[5rem]  text-yellow-400  bg-gradient-to-tr from-black  from-50% to-gray-500  ">
+    <main
+      className="w-full min-h-screen    text-white   text-center  bg-center bg-no-repeat bg-cover"
+      style={{ backgroundImage: `url(${songlib})` }}
+    >
+      {/* <div className="h-[5rem]  text-yellow-400  bg-gradient-to-tr from-black  from-50% to-gray-500  ">
         <h1 className=" ">Artist-name's songs </h1>
-      </div>
+      </div> */}
 
       {isLoading && (
         <ScaleLoader
@@ -159,10 +163,10 @@ export default function SongLibraryUi() {
           artistSongs.map((data) => (
             <div
               key={data._id}
-              className=" min-w-[90%] min-h-[5rem]  mx-auto   text-yellow-600  flex flex-col justify-center gap-3 p-2  items-center  mt-3  border-2 border-white  shadow-md shadow-gray-500 rounded-[1.6rem]"
+              className=" min-w-[90%] min-h-[5rem]  mx-auto   text-yellow-500  bg-opacity-80  flex flex-col justify-center gap-3 p-2  items-center  mt-3  bg-black  border-2 border-white  shadow-md shadow-gray-500 rounded-[1.6rem]"
             >
               <div>
-                <h1 className="capitalize  text-[1.1rem] font-bold  mb-2">
+                <h1 className="capitalize  text-[0.9rem] font-bold  mb-2">
                   &#9836; {data.filename}
                 </h1>
                 <AudioPlayer

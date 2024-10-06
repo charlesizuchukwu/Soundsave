@@ -45,12 +45,12 @@ main {
 }
 
 .icon-name {
-  @apply text-[0.8rem];
+  @apply text-[0.7rem]  font-bold;
 }
-
+/* 
 .link-style {
-  @apply flex flex-col justify-center items-center;
-}
+  @apply flex flex-col justify-center items-center  transition-all duration-500 hover:scale-140;
+} */
 
 /* DASHBORD PROFILE SETTING STYLE  */
 

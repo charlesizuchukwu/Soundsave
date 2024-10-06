@@ -13,6 +13,9 @@ import { SiMusicbrainz } from "react-icons/si";
 import { MdSecurity } from "react-icons/md";
 import { MdOutlineAddToHomeScreen } from "react-icons/md";
 import { GrConnect } from "react-icons/gr";
+import { BsSpotify } from "react-icons/bs";
+import { FaApple } from "react-icons/fa6";
+import { FaMoneyBillTrendUp } from "react-icons/fa6";
 
 // SITE NAME
 export const domain = "SoundSave";
@@ -98,5 +101,72 @@ export const whychoose = [
     name: "Collaborate seamlessly with industry professionals",
     icon: <GrConnect />,
     id: 5,
+  },
+];
+
+export const publicSongs = [
+  {
+    url: "https://music.youtube.com/watch?v=Yt-841OSeLA&list=OLAK5uy_limkyK9U-OlHydjzeBDK_uKBp_G-mvFiY",
+    id: 1,
+  },
+
+  {
+    url: "https://music.youtube.com/watch?v=ZsOA7Dvf32A",
+    id: 2,
+  },
+  {
+    url: "https://music.youtube.com/watch?v=ZKRr9ekYK-k",
+    id: 3,
+  },
+  {
+    url: "https://music.youtube.com/watch?v=j5FdAPUEf7w",
+    id: 4,
+  },
+];
+
+//  {
+//     url: "https://music.youtube.com/watch?v=RM8QhvvxLmc&list=RDAMVMoI6c9qpYKPU",
+//     id: 5,
+//   },
+//   {
+//     url: "https://music.youtube.com/watch?v=q8ly-y8XnkY&list=RDAMVMoI6c9qpYKPU",
+//     id: 6,
+//   },
+//   {
+//     url: "https://music.youtube.com/watch?v=-8o3tvLnsWA",
+//     id: 7,
+//   },
+
+export const dashboardData = [
+  {
+    head: "Apple Music for Artists",
+    subHead:
+      "Add personality to your artist profile, upload lyrics for each track, and access your data and insights",
+    url: "#",
+    icon: <FaApple />,
+    id: 1,
+  },
+  {
+    head: "Spotify for Artists",
+    subHead:
+      "Update your bio and artist photos, share updates with fans through Artist Pick, and feature playlists.",
+    url: "#",
+    icon: <BsSpotify />,
+    id: 2,
+  },
+  {
+    head: "Official Artist channel",
+    subHead:
+      "All content & subscribers from across your channels together in one place, plus Analytics for Artists.",
+    url: "#",
+    icon: <IoLogoYoutube />,
+    id: 3,
+  },
+  {
+    head: "Your songs, Your Money.",
+    subHead: "Claim Song Writer Royalties",
+    url: "#",
+    icon: <FaMoneyBillTrendUp />,
+    id: 4,
   },
 ];

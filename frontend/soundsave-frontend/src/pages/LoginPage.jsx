@@ -97,12 +97,12 @@ export default function LoginPage() {
         <div className="w-full h-[25rem]  md:h-[50rem]  bg-gradient-to-b    md:bg-gradient-to-r from-transparent to-black"></div>
       </section>
       <section className="w-full  flex flex-col justify-center  gap-4 items-center">
-        <div>
+        <div className=" ">
           {" "}
-          <span className="text-xl font-bold mr-1">Signin</span>{" "}
-          <FaRegCircleUser className="inline  text-[1.5rem] " />{" "}
+          <span className="text-xl font-bold mx-auto">Signin</span>{" "}
+          {/* <FaRegCircleUser className="inline  text-[1.5rem] " />{" "} */}
         </div>
-        <hr className="w-[50%] bg-white" />
+        {/* <hr className="w-[50%] bg-white" /> */}
 
         {logicError.errorData && (
           <p className="error-msg-style ">{logicError.errorData}</p>

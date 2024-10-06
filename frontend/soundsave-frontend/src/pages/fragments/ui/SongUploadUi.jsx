@@ -7,6 +7,7 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 import { errorMsg } from "../../../helper/errorMsg";
 import useRouteProtect from "../../../hooks/useRouteProtect";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
+import uploadsong from "../../../assets/uploadsong.jpg";
 
 export default function SongUploadUi() {
   const [file, setFile] = useState();
@@ -62,11 +63,14 @@ export default function SongUploadUi() {
   };
 
   const content = (
-    <main className="w-full min-h-screen  flex justify-center items-center">
+    <main
+      className="w-full min-h-screen  flex justify-center items-center  bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: `url(${uploadsong})` }}
+    >
       <form
         // onSubmit={handleSubmit(onSubmit)}
         // encType="multipart/form-data"
-        className="w-[90%]  min-h-[10rem]  overflow-hidden  flex flex-col gap-4 p-3 "
+        className="w-[90%]  min-h-[10rem]  rounded-[2rem]    bg-black bg-opacity-70  overflow-hidden  flex flex-col gap-4 p-3 "
       >
         {isLoading ? (
           <ScaleLoader
@@ -84,9 +88,18 @@ export default function SongUploadUi() {
           )
         )}
         <div className="  w-[80%]  mx-auto flex flex-col gap-3 text-center ">
-          <label htmlFor="song">
-            Please select the song file you wish to upload.
+          <label
+            htmlFor="song"
+            className=" w-[80%] sm:w-[80%]  text-black  mx-auto  rounded-r-lg p-2 bg-gradient-to-r from-transparent to-white      px-3 text-[1rem] sm:text-[2rem]  my-[3rem]    uppercase tracking-wide font-serif"
+          >
+            {" "}
+            Upload Song{" "}
           </label>
+          <p className="w-[90%] mx-auto text-[0.9rem]  tracking-wide">
+            With Soundsave, you can confidently share your music without
+            worrying about unauthorized access or leaks.
+          </p>
+          <hr className="w-[50%]  mx-auto my-[1rem]" />
           <input
             type="file"
             // {...register("song")}
@@ -99,7 +112,7 @@ export default function SongUploadUi() {
         <button
           onClick={upload}
           disabled={isLoading}
-          className="min-w-[50%] p-5  text-[1.1rem] mx-auto flex justify-around gap-3 items-center  rounded-md tracking-wide bg-green-700"
+          className="min-w-[50%] px-3 py-2  my-3  text-[1.1rem] mx-auto flex justify-around gap-3 items-center  hover:border-2 hover:border-white transition-all duration-200   rounded-md tracking-wide bg-green-700"
         >
           Upload now <FaUpload />
         </button>

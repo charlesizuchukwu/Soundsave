@@ -74,12 +74,12 @@ export default function RegisterPage() {
         <div className="w-full h-[25rem]  md:h-[50rem]  bg-gradient-to-b    md:bg-gradient-to-r from-transparent to-black"></div>
       </section>
       <section className=" md:-[55%]  flex flex-col justify-center items-center gap-3">
-        <div>
+        <div className="w-full text-center">
           {" "}
-          <span className="text-xl font-bold mr-1">Signup</span>{" "}
-          <FaRegCircleUser className="inline  text-[1.5rem] " />{" "}
+          <span className="text-xl font-bold mx-auto">Signup</span>{" "}
+          {/* <FaRegCircleUser className="inline  text-[1.5rem] " />{" "} */}
         </div>
-        <hr className="w-[50%] bg-white" />
+        {/* <hr className="w-[50%] bg-white" /> */}
         {logicError && (
           <p className="error-msg-style"> &#10005; {logicError}</p>
         )}

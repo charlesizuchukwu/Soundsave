@@ -1,8 +1,9 @@
 import singer from "../assets/singernobg.png";
-import { domain, partners, whychoose } from "../data";
-import ReactPlayer from "react-player";
+import { domain, partners, whychoose, publicSongs } from "../data";
+import ReactPlayer from "react-player/lazy";
 import { useEffect, useState } from "react";
-import axios from "../api/axios";
+// import axios from "../api/axios";
+import axios from "axios";
 import ScaleLoader from "react-spinners/ScaleLoader";
 import { errorMsg } from "../helper/errorMsg";
 import { Link } from "react-router-dom";
@@ -19,6 +20,9 @@ import { MdKeyboardDoubleArrowDown } from "react-icons/md";
 import songartist from "../assets/songartist.jpg";
 import choose from "../assets/choose.jpg";
 import { motion } from "framer-motion";
+import ReactAudioPlayer from "react-audio-player";
+
+// import { AudioPlayer } from "react-audio-play";
 
 export default function LandingPage() {
   const [err, setErr] = useState("");
@@ -58,6 +62,31 @@ export default function LandingPage() {
   };
 
   useEffect(() => {
+    const fetchdata = async () => {
+      const apiHeader = {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      };
+      try {
+        const response = await axios.get(
+          "https://openwhyd.org/hot/electro?format=json",
+          apiHeader
+        );
+
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    return () => {
+      fetchdata();
+    };
+  }, []);
+
+  useEffect(() => {
     const handleWidthResize = () => setWidth(window.innerWidth);
     window.addEventListener("resize", handleWidthResize);
 
@@ -65,7 +94,11 @@ export default function LandingPage() {
       let searchDataArray = [];
       try {
         setLoading(true);
-        const serverRes = await axios.get("/getallsongs");
+        console.log("start");
+        const serverRes = await axios.get(
+          "https://openwhyd.org/hot/electro?format=json"
+        );
+        console.log("done");
 
         console.log(serverRes);
         if (serverRes.status > 200) {
@@ -95,6 +128,7 @@ export default function LandingPage() {
             : serverRes?.data?.allSongFile
         );
       } catch (error) {
+        console.log(error);
         const err = errorMsg(error);
 
         setErr(err);
@@ -129,7 +163,7 @@ export default function LandingPage() {
             </span>
             , a leading platform for musicians, producers, and creators{" "}
           </h1>
-          <p className="text-[0.8rem] md:text-[1.2rem] md:text-[0.9rem]  md:w-[40%] text-gray-300    w-[90%] tracking-wide  text-left ">
+          <p className="text-[0.8rem] md:text-[1.2rem]   md:w-[40%] text-gray-300    w-[90%] tracking-wide  text-left ">
             secure file sharing, music management, and copyright protection -
             empowers artists to collaborate freely on unreleased projects while
             safeguarding their intellectual property
@@ -276,13 +310,12 @@ export default function LandingPage() {
             className="w-[99%] h-[98%]    bg-[#0a572a] mx-auto  text-black  grid place-content-center"
           > */}
           {/* <div className="slide-unit">slide 1</div> */}
-          {allSongs && allSongs.length != 0 ? (
-            allSongs.map((data) => (
-              <div
-                key={data._id}
-                className=" min-w-full sm:min-w-[10rem] h-[85%]  bg-black text-white   text-center   rounded-[1.2rem]  p-2  shadow-md shadow-gray-500"
-              >
-                <Link
+          {publicSongs.map((data) => (
+            <div
+              key={data.id}
+              className=" min-w-full sm:min-w-[10rem] h-[85%]  bg-black text-white   text-center   rounded-[1.2rem]  p-2  shadow-md shadow-gray-500"
+            >
+              {/* <Link
                   to={`/song/${data?._id}/${data?.filename}`}
                   className="w-full  h-full  flex flex-col  gap-3 justify-center items-center  rounded-[1.2rem] "
                 >
@@ -290,16 +323,13 @@ export default function LandingPage() {
                   <b className=" min-w-[5rem] text-white text-[0.9rem]">
                     {data.filename}
                   </b>
-                </Link>
-              </div>
-            ))
-          ) : typeof allSongs == "undefined" ? (
-            <b className="mx-auto text-center text-[0.8rem] text-red-500 tracking-wide">
-              Network error, please try again when connected to the internet.
-            </b>
-          ) : (
-            <p>No song available</p>
-          )}
+                </Link> */}
+
+              {/* <div className="w-[80%] sm:w-[60%]  mx-auto  bg-white"> */}
+              <ReactPlayer url={data.url} width="100%" height="100%" />
+              {/* </div> */}
+            </div>
+          ))}
           {/* </Carousel> */}
         </div>
       </section>

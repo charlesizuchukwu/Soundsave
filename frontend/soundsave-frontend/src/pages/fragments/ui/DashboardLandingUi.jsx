@@ -4,6 +4,9 @@ import { Chart } from "react-google-charts";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useRouteProtect from "../../../hooks/useRouteProtect";
+import playedsong from "../../../assets/playedsong.jpg";
+import { dashboardData } from "../../../data";
+import singernobg from "../../../assets/singernobg.png";
 
 export default function DashboardLandingUi() {
   const { auth, setAuth } = useOutletContext();
@@ -85,16 +88,33 @@ export default function DashboardLandingUi() {
   };
 
   const content = (
-    <main className="w-full  min-h-screen bg-black  text-white  grid  sm:grid-cols-2   place-content-center  ">
-      <section className="w-full  h-[5rem]  flex justify-center  items-center  ">
-        <ul>
-          <li>
-            Uploaded Songs: <b>50</b>
-          </li>
+    <main className="w-full  min-h-screen bg-[#201f1fde] p-2   text-white  grid  sm:grid-cols-2   place-content-center  ">
+      <section
+        className="w-full  min-h-[5rem]  p-2  mb-1  flex justify-center  items-center  bg-cover bg-center bg-no-repeat "
+        style={{ backgroundImage: `url(${playedsong})` }}
+      >
+        <ul className="  w-[90%] mx-auto grid grid-cols-1 gap-2 md:grid-cols-2    text-[0.8rem]">
+          {dashboardData.map((data) => (
+            <li
+              key={data.id}
+              className=" min-w-[70%]   flex  min-h-[4rem]  justify-around  bg-blue-500  rounded-md   items-center p-2 "
+            >
+              <div className="flex justify-center  text-[1.5rem]  items-center">
+                {data.icon}
+              </div>
+              <div className=" flex flex-col gap-4   p-2 justify-around  items-center ">
+                <h4 className="text-[1.1rem] font-bold tracking-wide">
+                  {data.head}
+                </h4>{" "}
+                <p>{data.subHead}</p>
+              </div>
+            </li>
+          ))}
         </ul>
       </section>
-      <section className="w-[80%]  mx-auto  p-3     flex justify-center  items-center">
-        <SimpleGauge value={50} maxLimit={1000} style={{ color: "white" }} />
+      <section className="w-[80%]  mx-auto  p-3     flex  flex-col gsp-4 justify-center  items-center">
+        <h4 className="my-[2rem]">Song Upload Tracker </h4>
+        <SimpleGauge value={35} maxLimit={100} style={{ color: "black" }} />
       </section>
       <section className="text-white">
         <Chart
@@ -105,7 +125,7 @@ export default function DashboardLandingUi() {
           options={comboChartOptions}
         />
       </section>
-      <section className="w-full ">
+      <section className="w-full flex flex-col justify-center  items-center  ">
         <Chart
           chartType="PieChart"
           data={pieChartData}
@@ -113,6 +133,9 @@ export default function DashboardLandingUi() {
           width={"100%"}
           height={"200px"}
         />
+        <div className="w-full    h-[50%]  bg-black  mb-[4rem]  md:mb-0  md:p-5">
+          <img src={singernobg} alt="singer" className="w-full h-full" />
+        </div>
       </section>
       {/* <section className="w-[80%]  mx-auto">
         <ReactPlayer
