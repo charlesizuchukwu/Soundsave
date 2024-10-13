@@ -40,7 +40,10 @@ export default function Header() {
           <span className="font-thin">Save</span>
           <IoHeadset />
         </Link>
-        <p onClick={() => changePage("login")} className="header-link  ">
+        <p
+          onClick={() => changePage("login")}
+          className="header-link hover:cursor-pointer "
+        >
           Login
         </p>
         <button onClick={() => setShowMenu(!showMenu)} className=" sm:hidden">

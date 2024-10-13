@@ -3,6 +3,8 @@ const dotenv = require("dotenv");
 const { musicArtists } = require("../models/artistModel");
 const jwt = require("jsonwebtoken");
 const validator = require("email-validator");
+const { jwtDecode } = require("jwt-decode");
+const { findById } = require("../models/gridfile.model");
 
 dotenv.config();
 
@@ -78,13 +80,6 @@ const refresh = asyncHandler(async (req, res) => {
 
 // LOGOUT LOGIC
 
-const logout = asyncHandler(async (req, res) => {
-  const cookie = req.cookies;
-  if (!cookie) return res.sendStatus(204);
-  res.clearCookie("jwt", { sameSite: "None", secure: true, httpOnly: true });
-  return res.json({ message: "Cookie cleard" });
-});
-
 const forgotPassword = asyncHandler(async (req, res) => {
   const { email, secretQuestion, secretAnswer } = req.body;
   const dt = { email, secretQuestion, secretAnswer };
@@ -145,8 +140,63 @@ const resetPassowrd = asyncHandler(async (req, res) => {
   return res.status(200).json({ success: true });
 });
 
+// SAVE TOKEN
+let user_id;
+
+const saveToken = asyncHandler(async (req, res) => {
+  const { recvToken } = req.body;
+
+  if (!recvToken) {
+    return res.status(401).json({ message: "Token is required!" });
+  }
+
+  const userData = jwtDecode(recvToken);
+  const { id } = userData;
+  user_id = id;
+  const foundUser = await musicArtists.findById(id);
+
+  if (!foundUser) {
+    return res.status(400).json("User not found.");
+  }
+
+  const savedToken = await musicArtists.findByIdAndUpdate(
+    { _id: foundUser._id },
+    { uToken: recvToken }
+  );
+
+  if (savedToken) {
+    return res.status(200).json({ message: "success" });
+  } else {
+    return res.status(400).json({ message: "failed" });
+  }
+});
+
+// GET TOKEN
+
+const getToken = asyncHandler(async (req, res) => {
+  if (!user_id || typeof user_id === "undefined" || user_id.length === 0) {
+    return res.status(400).json({ tokenStatus: false });
+  }
+
+  const foundUser = await musicArtists.findById(user_id);
+  if (!foundUser) {
+    return res.status(400).json({ tokenStatus: false });
+  }
+  return res.status(200).json({ tokenStatus: true, token: foundUser.uToken });
+});
+
+// LOGOUT
+const logout = asyncHandler(async (req, res) => {
+  const cookie = req.cookies;
+  if (!cookie) return res.sendStatus(204);
+  res.clearCookie("jwt", { sameSite: "None", secure: true, httpOnly: true });
+  return res.json({ message: "Cookie cleard" });
+});
+
 module.exports = {
   login,
+  getToken,
+  saveToken,
   refresh,
   logout,
   forgotPassword,

@@ -1,13 +1,36 @@
 import useAuth from "./useAuth";
 import useRefresh from "./useRefresh";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { axiosPrivate } from "../api/axios";
+import axios from "../api/axios";
 
 const useAxiosPrivate = () => {
   const refresh = useRefresh();
-  const { auth } = useAuth();
+  const { auth, setAuth } = useAuth();
+  const [pageRefreshToken, setPageRefreshToken] = useState();
 
-  console.log(auth);
+  console.log(auth.accessToken);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("/getToken");
+        console.log(response);
+        if (response.status === 200) {
+          setAuth((prev) => ({ ...prev, accessToken: response?.data?.token }));
+
+          setPageRefreshToken(response?.data?.token);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(pageRefreshToken);
+  console.log(auth.accessToken);
 
   useEffect(() => {
     const requestInterceptor = axiosPrivate.interceptors.request.use(

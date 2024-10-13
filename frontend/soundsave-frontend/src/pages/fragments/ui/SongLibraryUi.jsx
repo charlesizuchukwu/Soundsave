@@ -22,7 +22,7 @@ export default function SongLibraryUi() {
   const [serverData, setServerData] = useState({});
   const [errMsg, setErrMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isAllowed, setIsAllowed] = useState(false);
+  // const [isAllowed, setIsAllowed] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const { auth } = useOutletContext();
@@ -30,7 +30,7 @@ export default function SongLibraryUi() {
 
   console.log(auth);
 
-  useRouteProtect(auth?.accessToken, setIsAllowed);
+  // useRouteProtect(auth?.accessToken, setIsAllowed);
   const download = async (id, name) => {
     console.log(id, name);
     try {
@@ -202,10 +202,9 @@ export default function SongLibraryUi() {
         ) : (
           isLoading === false &&
           typeof artistSongs === "undefined" && (
-            <p className="text-red-500 mx-auto">
+            <p className="text-white mx-auto animate-pulse">
               {" "}
-              <FaFaceFrown className="inline text-yellow-400  text-[1.5rem]" />{" "}
-              Something went wrong please try again later
+              Loading Songs....
             </p>
           )
         )}
@@ -213,5 +212,6 @@ export default function SongLibraryUi() {
     </main>
   );
 
-  return isAllowed === true && content;
+  // return isAllowed === true && content;
+  return content;
 }

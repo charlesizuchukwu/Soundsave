@@ -25,5 +25,7 @@ router.route("/refresh").get(artistAuthController.refresh);
 router.route("/logout").get(artistAuthController.logout);
 router.route("/forgotpwd").post(artistAuthController.forgotPassword);
 router.route("/resetpwd").patch(artistAuthController.resetPassowrd);
+router.route("/savetoken").patch(artistAuthController.saveToken);
+router.route("/getToken").get(artistAuthController.getToken);
 
 module.exports = router;

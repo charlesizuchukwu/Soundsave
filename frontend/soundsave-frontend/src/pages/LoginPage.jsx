@@ -67,8 +67,13 @@ export default function LoginPage() {
           navigate("/login");
         }
         const userData = jwtDecode(accessToken);
+        console.log(userData);
         const { id, fullName } = userData;
         setAuth((prev) => ({ ...prev, id, fullName, accessToken }));
+        const resp = await axios.patch("/saveToken", {
+          recvToken: accessToken,
+        });
+        console.log(resp);
         navigate("/dashboard/", { state: { fullName } });
 
         console.log(userData);
@@ -126,7 +131,7 @@ export default function LoginPage() {
             </label>
             <input
               type="text"
-              placeholder="mike@gmail.com"
+              // placeholder="mike@gmail.com"
               id="email"
               {...register("email", {
                 required: { value: true, message: "Please fill this field" },
@@ -162,7 +167,7 @@ export default function LoginPage() {
             </label>
             <input
               type="text"
-              placeholder="MikePwd&44%"
+              // placeholder="MikePwd&44%"
               id="password"
               name="password"
               {...register("password", {

@@ -11,7 +11,7 @@ import singernobg from "../../../assets/singernobg.png";
 export default function DashboardLandingUi() {
   const { auth, setAuth } = useOutletContext();
   const navigate = useNavigate();
-  const [isAllowed, setIsAllowed] = useState(false);
+  // const [isAllowed, setIsAllowed] = useState(false);
 
   console.log(auth);
 
@@ -28,7 +28,7 @@ export default function DashboardLandingUi() {
   //   protector();
   // }, []);
 
-  useRouteProtect(auth?.accessToken, setIsAllowed);
+  // useRouteProtect(auth?.accessToken, setIsAllowed);
 
   // COMBOCHART SETTING
   const comboChartData = [
@@ -147,7 +147,8 @@ export default function DashboardLandingUi() {
     </main>
   );
 
-  return isAllowed === true && content;
+  // return isAllowed === true && content;
+  return content;
 }
 
 // LINKS TO CHART TEMPLATE SETUP

@@ -8,13 +8,14 @@ import { errorMsg } from "../../../helper/errorMsg";
 import useRouteProtect from "../../../hooks/useRouteProtect";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import uploadsong from "../../../assets/uploadsong.jpg";
+// REACT UPLOAD IMPORTS
 
 export default function SongUploadUi() {
-  const [file, setFile] = useState();
+  const [file, setFile] = useState(File | null);
   const [successMsg, setSuccessMsg] = useState();
   const [errMsg, setErrMsg] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const [isAllowed, setIsAllowed] = useState(false);
+  // const [isAllowed, setIsAllowed] = useState(false);
   const axiosPrivate = useAxiosPrivate();
   // const { register, handleSubmit } = useForm();
 
@@ -22,7 +23,13 @@ export default function SongUploadUi() {
 
   console.log(auth?.id);
 
-  useRouteProtect(auth?.accessToken, setIsAllowed);
+  // useRouteProtect(auth?.accessToken, setIsAllowed);
+
+  const handleFileChange = (e) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+    }
+  };
 
   const upload = async (e) => {
     e.preventDefault();
@@ -69,7 +76,8 @@ export default function SongUploadUi() {
     >
       <form
         // onSubmit={handleSubmit(onSubmit)}
-        // encType="multipart/form-data"
+        encType="multipart/form-data"
+        method="post"
         className="w-[90%]  min-h-[10rem]  rounded-[2rem]    bg-black bg-opacity-70  overflow-hidden  flex flex-col gap-4 p-3 "
       >
         {isLoading ? (
@@ -87,6 +95,17 @@ export default function SongUploadUi() {
             </p>
           )
         )}
+
+        {/* {file && (
+          <section>
+            File details:
+            <ul>
+              <li>Name: {file.name}</li>
+              <li>Type: {file.type}</li>
+              <li>Size: {file.size} bytes</li>
+            </ul>
+          </section>
+        )} */}
         <div className="  w-[80%]  mx-auto flex flex-col gap-3 text-center ">
           <label
             htmlFor="song"
@@ -105,7 +124,8 @@ export default function SongUploadUi() {
             // {...register("song")}
             name="song"
             className="text-yellow-500"
-            onChange={(e) => setFile(e.target.files[0])}
+            // onChange={(e) => setFile(e.target.files[0])}
+            onChange={handleFileChange}
           />
         </div>
 
@@ -120,5 +140,7 @@ export default function SongUploadUi() {
     </main>
   );
 
-  return isAllowed === true && content;
+  // return isAllowed === true && content;
+
+  return content;
 }

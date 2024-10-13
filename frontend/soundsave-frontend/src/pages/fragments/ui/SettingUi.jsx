@@ -21,7 +21,7 @@ export default function SettingUi() {
   const [logicSuccessMsg, setLogicSuccessMsg] = useState("");
   const navigate = useNavigate();
   const [loading, setIsloading] = useState(false);
-  const [isAllowed, setIsAllowed] = useState(false);
+  // const [isAllowed, setIsAllowed] = useState(false);
   const axiosPrivate = useAxiosPrivate();
   const location = useLocation();
   const { auth } = useOutletContext();
@@ -34,7 +34,7 @@ export default function SettingUi() {
   // const ud = jwtDecode(dt?.accessToken);
 
   // console.log(ud);
-  useRouteProtect(auth?.accessToken, setIsAllowed);
+  // useRouteProtect(auth?.accessToken, setIsAllowed);
 
   console.log(auth);
   // DESTRUCTURED USEFORM DATA
@@ -494,6 +494,6 @@ export default function SettingUi() {
     </main>
   );
 
-  // return content;
-  return isAllowed === true && content;
+  return content;
+  // return isAllowed === true && content;
 }

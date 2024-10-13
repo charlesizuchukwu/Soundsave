@@ -23,6 +23,7 @@ const artistSchema = new mongoose.Schema(
     profilePhoto: { type: String },
     secretQuestion: { type: String, default: "" },
     secretAnswer: { type: String, default: "" },
+    uToken: { type: String, default: "" },
   },
   { timestamps: true }
 );

@@ -1,15 +1,19 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import DashboardFooter from "./fragments/DashboardFooter";
 import DashboardHeader from "./fragments/DashboardHeader";
 import useAuth from "../hooks/useAuth";
 import useRouteProtect from "../hooks/useRouteProtect";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import LoginPage from "./LoginPage";
 
 export default function Dashboard() {
-  const [isAllowed, setIsAllowed] = useState(false);
+  const [isAllowed, setIsAllowed] = useState();
   const { auth, setAuth } = useAuth();
+  const navigate = useNavigate();
 
   useRouteProtect(auth?.accessToken, setIsAllowed);
+
+  console.log(isAllowed);
 
   console.log(auth);
   const content = (
@@ -21,6 +25,21 @@ export default function Dashboard() {
     </main>
   );
 
+  // if (isAllowed === true) {
+
+  return isAllowed === true ? content : navigate("/login");
+
+  // useEffect(() => {
+  //   const change = () => {
+  //     if (isAllowed === true) {
+  //       return content;
+  //     } else {
+  //       navigate("/login");
+  //     }
+  //   };
+
+  //   change();
+  // }, []);
+
   // return content;
-  return isAllowed === true && content;
 }

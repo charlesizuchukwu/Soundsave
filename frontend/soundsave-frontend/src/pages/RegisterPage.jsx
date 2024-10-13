@@ -107,7 +107,7 @@ export default function RegisterPage() {
             </label>
             <input
               type="text"
-              placeholder="Mike Morgan"
+              // placeholder="Mike Morgan"
               id="fullName"
               {...register("fullName", {
                 required: { value: true, message: "Please fill this field" },
@@ -143,7 +143,7 @@ export default function RegisterPage() {
             </label>
             <input
               type="text"
-              placeholder="mike@gmail.com"
+              // placeholder="mike@gmail.com"
               id="email"
               {...register("email", {
                 required: { value: true, message: "Please fill this field" },
@@ -179,7 +179,7 @@ export default function RegisterPage() {
             </label>
             <input
               type="text"
-              placeholder="MikePwd&44%"
+              // placeholder=""
               id="password"
               {...register("password", {
                 required: { value: true, message: "Please fill this field" },
@@ -215,7 +215,7 @@ export default function RegisterPage() {
             </label>
             <input
               type="text"
-              placeholder="MikePwd&44%"
+              // placeholder="MikePwd&44%"
               id="confirmPassword"
               {...register("confirmPassword", {
                 required: { value: true, message: "Please fill this field" },
@@ -338,6 +338,7 @@ export default function RegisterPage() {
           {/* END OF SECRET ANSWER */}
           <input
             type="submit"
+            value="Submit"
             className="bg-[#0a572a]  text-xl tracking-wide rounded-lg  mx-auto block  p-2  lg:col-span-2"
           />
         </form>
