@@ -33,16 +33,16 @@ dbConn();
 const port = process.env.PORT || 4000;
 
 // const upload = multer({ dest: path.join(__dirname, ".") });
-// const storage = multer.memoryStorage();
+const storage = multer.memoryStorage();
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "uploads/");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, Date.now() + "-" + file.originalname);
+//   },
+// });
 
 const upload = multer({ storage });
 

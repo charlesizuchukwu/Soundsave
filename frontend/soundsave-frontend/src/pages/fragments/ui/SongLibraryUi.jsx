@@ -141,6 +141,9 @@ export default function SongLibraryUi() {
 
   console.log(errMsg);
 
+  const hostedbaserUrl = "https://soundsave-server.vercel.app";
+  const localbaseurl = "http://127.0.0.1:5000/downloadsong";
+
   const content = (
     <main
       className="w-full min-h-screen    text-white   text-center  bg-center bg-no-repeat bg-cover"
@@ -170,7 +173,7 @@ export default function SongLibraryUi() {
                   &#9836; {data.filename}
                 </h1>
                 <AudioPlayer
-                  src={`http://127.0.0.1:5000/downloadsong/${data?._id}/${data?.name}`}
+                  src={`${hostedbaserUrl}/${data?._id}/${data?.name}`}
                 />
               </div>
               <div className=" min-w-[60%]  mx-auto  flex justify-between  gap-4 items-center">
