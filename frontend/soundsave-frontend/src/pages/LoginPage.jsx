@@ -199,6 +199,7 @@ export default function LoginPage() {
 
           <input
             type="submit"
+            value="Submit Now"
             className="bg-[#0a572a]  text-xl tracking-wide rounded-lg  mx-auto block  p-2"
           />
         </form>
