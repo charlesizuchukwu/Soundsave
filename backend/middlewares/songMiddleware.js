@@ -70,12 +70,14 @@ const uploadSong = async (req, res, next) => {
         // await gridFile.upload(fileStream);
 
         // console.log("uploading file: ");
-        await gridFile.upload(fileStream);
+        // await gridFile.upload(fileStream);
+        // await gridFile.upload(fileStream);
 
         file.userId = foundUser._id;
 
         // console.log("deleting the upload folder");
-        fs.unlinkSync(file.path);
+        // fs.unlinkSync(file.path);
+        fs.unlinkSync(fullPath);
       });
 
       await Promise.all(promises);
