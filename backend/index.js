@@ -7,7 +7,6 @@ const mongoose = require("mongoose");
 const { dbConn } = require("./config/dbConn.js");
 const cors = require("cors");
 const artistRoute = require("./routes/artistRoutes.js");
-const { GridFsStorage } = require("multer-gridfs-storage");
 const fileUpload = require("express-fileupload");
 const multer = require("multer");
 const path = require("path");
