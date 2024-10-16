@@ -25,6 +25,7 @@ const uploadSong = async (req, res, next) => {
     if (req.files) {
       // return res.status(200).json({ data: req.files });
       const promises = req.files.map(async (file) => {
+        console.log(file);
         const fileStream = fs.createReadStream(file.path);
 
         const gridFile = new GridFile({

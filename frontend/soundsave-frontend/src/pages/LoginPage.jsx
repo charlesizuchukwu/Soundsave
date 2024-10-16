@@ -79,6 +79,7 @@ export default function LoginPage() {
         console.log(userData);
       }
     } catch (error) {
+      console.log(error);
       const err = errorMsg(error);
       console.log(err);
       setLogicError((prev) => ({ ...prev, errorData: err }));

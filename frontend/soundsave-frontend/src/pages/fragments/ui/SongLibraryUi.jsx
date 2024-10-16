@@ -161,7 +161,7 @@ export default function SongLibraryUi() {
         />
       )}
 
-      <section className=" w-[95%]  mx-auto  grid grid-cols-1 md:grid-cols-2  gap-3 ">
+      <section className=" w-[95%] my-[5rem]  mx-auto  grid grid-cols-1 md:grid-cols-2  gap-3   bg-black bg-opacity-60">
         {isLoading === false && artistSongs && artistSongs.length != 0 ? (
           artistSongs.map((data) => (
             <div
