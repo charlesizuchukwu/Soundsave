@@ -24,17 +24,57 @@ const uploadSong = async (req, res, next) => {
 
     if (req.files) {
       // return res.status(200).json({ data: req.files });
+      // const coolPath = path.join(__dirname, "cool.txt");
+
       const promises = req.files.map(async (file) => {
         console.log(file);
-        const fileStream = fs.createReadStream(file.path);
 
-        const gridFile = new GridFile({
-          filename: file.originalname,
-          aliases: foundUser._id,
-        });
+        // console.log("creating read-stream");
+
+        // Get the directory name and filename
+        // const filePath = req.file.path; // This is the full path of the uploaded file
+        // const dirName = path.dirname(filePath); // Directory name of the uploaded file
+        // const baseName = path.basename(filePath); // File name with extension
+
+        // console.log("Directory Name:", dirName);
+        // console.log("File Name:", baseName);
+        // console.log("filepath", filePath);
+
+        const fullPath = path.join(__dirname, "uploads", file.filename);
+
+        console.log(fullPath);
+
+        const fileStream = fs.createReadStream(fullPath);
+        // const fileStream = fs.createReadStream(filePath);
+
+        // const gridFile = new GridFile({
+        //   filename: file.originalname,
+        //   aliases: foundUser._id,
+        // });
+
+        // fileStream.on("error", (err) => {
+        //   console.log("something went wrong");
+        // });
+
+        // fileStream.on("data", (chunk) => {
+        //   console.log({ dataChunk: chunk });
+        // });
+
+        // fileStream.on("end", () => {
+        //   console.log("Done uploading file");
+        // });
+        const gridFile = new GridFile();
+        gridFile.filename = file.originalname;
+        gridFile.aliases = foundUser._id;
+
+        // await gridFile.upload(fileStream);
+
+        // console.log("uploading file: ");
         await gridFile.upload(fileStream);
 
         file.userId = foundUser._id;
+
+        // console.log("deleting the upload folder");
         fs.unlinkSync(file.path);
       });
 
