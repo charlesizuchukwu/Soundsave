@@ -40,12 +40,12 @@ const uploadSong = async (req, res, next) => {
         // console.log("File Name:", baseName);
         // console.log("filepath", filePath);
 
-        const fullPath = path.join(__dirname, "uploads", file.filename);
+        const fullPath = path.join(__dirname, "uploads", file.path);
 
         console.log(fullPath);
 
-        const fileStream = fs.createReadStream(fullPath);
-        // const fileStream = fs.createReadStream(filePath);
+        // const fileStream = fs.createReadStream(file.path);
+        const fileStream = fs.createReadStream(file.path);
 
         // const gridFile = new GridFile({
         //   filename: file.originalname,
@@ -71,13 +71,13 @@ const uploadSong = async (req, res, next) => {
 
         // console.log("uploading file: ");
         // await gridFile.upload(fileStream);
-        // await gridFile.upload(fileStream);
+        await gridFile.upload(fileStream);
 
         file.userId = foundUser._id;
 
         // console.log("deleting the upload folder");
         // fs.unlinkSync(file.path);
-        fs.unlinkSync(fullPath);
+        fs.unlinkSync(file.path);
       });
 
       await Promise.all(promises);
