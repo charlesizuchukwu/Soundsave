@@ -103,15 +103,7 @@ const upload = multer({ dest: path.join(__dirname, "uploads") }); // Store files
 // console.log(upload);
 
 app.use(cors(corsOptions));
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE");
-//   res.setHeader(
-//     "Access-Control-Allow-Methods",
-//     "Content-Type",
-//     "Authorization"
-//   );
-// });
+
 app.use(express.json());
 // app.use(fileUpload());
 app.use(cookieParser());
