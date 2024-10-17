@@ -58,9 +58,13 @@ dbConn();
 
 // const mongoUri = mongoose.connect(process.env.DB_URI);
 
+// Use memory storage
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
 const port = process.env.PORT || 4000;
 
-const upload = multer({ dest: "uploads" }); // Store files in 'uploads' directory
+// const upload = multer({ dest: "uploads" }); // Store files in 'uploads' directory
 
 app.use(cors(corsOptions));
 
