@@ -48,6 +48,14 @@ dotenv.config();
 
 dbConn();
 
+// const start = async () => {
+//   // connect to a mongo database
+//   const mongodb = new MongoMemoryServer()
+//   const connectionUri = await mongodb.getUri()
+//   await mongoose.connect(
+//     connectionUri, { useNewUrlParser: true, useUnifiedTopology: true }
+//   )}
+
 // const mongoUri = mongoose.connect(process.env.DB_URI);
 
 const port = process.env.PORT || 4000;
