@@ -26,6 +26,7 @@ const uploadSong = async (req, res, next) => {
         console.log(file);
 
         const fileStream = fs.createReadStream(file.path);
+        // const fileStream = fs.createReadStream(path.join(__dirname, 'attachment.pdf'))
 
         const gridFile = new GridFile();
         gridFile.filename = file.originalname;

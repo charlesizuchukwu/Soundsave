@@ -60,7 +60,7 @@ dbConn();
 
 const port = process.env.PORT || 4000;
 
-const upload = multer({ dest: path.join(__dirname, "uploads") }); // Store files in 'uploads' directory
+const upload = multer({ dest: "uploads" }); // Store files in 'uploads' directory
 
 app.use(cors(corsOptions));
 
