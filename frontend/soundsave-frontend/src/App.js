@@ -5,6 +5,14 @@ import Header from "./pages/fragments/Header";
 import { Outlet } from "react-router-dom";
 
 function App({ children }) {
+  useEffect(() => {
+    const changeTitle = () => {
+      document.title = "Soundsave";
+    };
+
+    changeTitle();
+  }, []);
+
   return (
     <>
       <Header />

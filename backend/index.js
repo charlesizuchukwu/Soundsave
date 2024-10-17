@@ -71,6 +71,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 // app.use(fileUpload());
 app.use(cookieParser());
+// FOR LOCal USE
 // app.use(multer({ dest: path.join(__dirname, ".") }));
 
 app.use(artistRoute);
