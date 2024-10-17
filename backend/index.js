@@ -55,6 +55,41 @@ const port = process.env.PORT || 4000;
 // const upload = multer({ dest: path.join(__dirname, ".") });
 
 // Configure Multer
+
+// const storage = new GridFsStorage({ db: connection });
+
+// var storage = new GridFsStorage({
+//   url: "mongodb://host:27017/database",
+//   file: (req, file) => {
+//     return new Promise((resolve, reject) => {
+//       crypto.randomBytes(16, (err, buf) => {
+//         if (err) {
+//           return reject(err);
+//         }
+//         const filename = buf.toString("hex") + path.extname(file.originalname);
+//         const fileInfo = {
+//           filename: filename,
+//           bucketName: "uploads",
+//         };
+//         resolve(fileInfo);
+//       });
+//     });
+//   },
+// });
+
+// Create storage engine
+// const storage = new GridFsStorage({
+//   url: process.env.DB_URI,
+//   file: (req, file) => {
+//     return {
+//       filename: file.originalname,
+//       bucketName: "uploads", // collection name
+//     };
+//   },
+// });
+
+// const upload = multer({ storage: storage });
+
 const upload = multer({ dest: path.join(__dirname, "uploads") }); // Store files in 'uploads' directory
 
 // Create the uploads directory if it doesn't exist
@@ -74,9 +109,10 @@ const upload = multer({ dest: path.join(__dirname, "uploads") }); // Store files
 //   },
 // });
 
+// let storage;
 // mongoose.connection.on("open", () => {
 //   storage = new GridFsStorage({
-//     url: mongoUri,
+//     url: process.env.DB_URI,
 //     file: (req, file) => {
 //       return {
 //         filename: file.originalname,
@@ -86,7 +122,9 @@ const upload = multer({ dest: path.join(__dirname, "uploads") }); // Store files
 //     },
 //   });
 // });
-// const upload = multer({ dest: "/uploads" });
+
+// console.log(storage);
+// const storage = multer({ dest: "/uploads" });
 
 // const storage = multer.diskStorage({
 //   destination: (req, file, cb) => {
@@ -97,7 +135,18 @@ const upload = multer({ dest: path.join(__dirname, "uploads") }); // Store files
 //   },
 // });
 // console.log(storage);
-// const upload = multer({ storage });
+// const connection = mongoose.connect(process.env.DB_URI);
+// const storage = new GridFsStorage({
+//   db: connection,
+//   file: (req, file) => {
+//     return {
+//       filename: file.originalname,
+//       bucketName: "uploads",
+//     };
+//   },
+// });
+// const storage = new GridFsStorage({ db: connection });
+// const upload = multer({ storage: storage });
 
 // console.log(upload);
 
@@ -109,6 +158,10 @@ app.use(cookieParser());
 // app.use(multer({ dest: path.join(__dirname, ".") }));
 
 app.use(artistRoute);
+
+// app.post("/upload", verifyJwt, upload.single("song"), uploadSong);
+// app.post("/upload", verifyJwt, upload.single("song"), uploadSong);
+
 app.post("/upload", verifyJwt, upload.any(), uploadSong);
 app.get("/getallsongs", getAllSongs);
 app.get("/downloadsong/:id/:name", downLoadSong);

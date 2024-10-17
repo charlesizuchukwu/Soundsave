@@ -7,6 +7,8 @@ const path = require("path");
 // UPLOAD SONG
 const uploadSong = async (req, res, next) => {
   const id = req.user;
+
+  console.log(id);
   if (!id) {
     return res.status(400).json({ message: "User id must be provided." });
   }
@@ -40,9 +42,9 @@ const uploadSong = async (req, res, next) => {
         // console.log("File Name:", baseName);
         // console.log("filepath", filePath);
 
-        const fullPath = path.join(__dirname, "uploads", file.path);
+        // const fullPath = path.join(__dirname, "uploads", file.path);
 
-        console.log(fullPath);
+        // console.log(fullPath);
 
         // const fileStream = fs.createReadStream(file.path);
         const fileStream = fs.createReadStream(file.path);
